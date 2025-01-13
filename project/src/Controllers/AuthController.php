@@ -23,7 +23,7 @@ class AuthController {
                 echo "Votre compte a été suspenser";
             }
             else if($user['status'] === "Not Active"){
-                echo "Votre compte a été suppremer";
+                echo "Votre compte a été encore désactivé";
             }
         }
         }

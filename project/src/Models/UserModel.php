@@ -44,8 +44,12 @@ class UserModel {
             return false;
         }
     }
-    public function getUsers(){
-        
+    public function getAllUsers(){
+        $query = "SELECT users.name , users.email ,users.role ,users.status FROM users";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $userData;
     }
 }
 
