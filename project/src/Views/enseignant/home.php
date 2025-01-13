@@ -1,12 +1,5 @@
 <?php
-require_once("../../../vendor/autoload.php");
-session_start();
-$email = $_SESSION['email'];
 
-use App\Controllers\OffreController;
-
-$offresFetch = new OffreController;
-$offreFetched = $offresFetch->fetchOffre();
 
 ?>
 
@@ -35,7 +28,7 @@ $offreFetched = $offresFetch->fetchOffre();
     </header>
 
     <main class="container mx-auto mt-8 p-4">
-        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue, <?= $email ?> </h2>
+        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue</h2>
         <p class="text-center text-lg text-gray-700">Connectez-vous avec des candidats talentueux et passionnés.</p>
         <p class="mt-4 text-center text-gray-600">Utilisez notre plateforme pour publier vos offres d'emploi et gérer les candidatures facilement.</p>
 

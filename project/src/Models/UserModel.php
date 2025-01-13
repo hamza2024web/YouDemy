@@ -14,7 +14,7 @@ class UserModel {
     }
 
     public function findUserByEmail($email){
-        $query = "SELECT users.id , users.email , users.password , users.role 
+        $query = "SELECT users.id , users.email , users.password , users.role ,users.status
         FROM users WHERE users.email = :email";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email",$email);
@@ -27,7 +27,7 @@ class UserModel {
         if (!$userData){
             return false;
         }
-        if ($userData['role'] === 'administrateur'){
+        if ($userData){
             return $userData;
         }
         if(password_verify($password , $userData['password'])){
@@ -35,12 +35,17 @@ class UserModel {
             $_SESSION['user_id'] = $userData['id'];
             $_SESSION['email'] = $userData['email'];
             $_SESSION['role'] = $userData['role'];
+            $_SESSION['status'] = $userData['status'];
 
             error_log("Login successfly for email: $email");
             return $userData;
+
         } else {
             return false;
         }
+    }
+    public function getUsers(){
+        
     }
 }
 

@@ -1,3 +1,9 @@
+<?php
+require_once("../../../vendor/autoload.php");
+use App\Controllers\
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +42,7 @@
 
             <!-- Tag Table -->
             <div class="bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Tags Existants</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Users List</h2>
                 <table class="table-auto w-full border-collapse bg-white">
                     <thead>
                         <tr class="bg-gray-800 text-white">

@@ -12,13 +12,18 @@ class EtudiantAndEnseignant {
         $db = new Database();
         $this->conn = $db->connect();
     }
-    public function setEtudiantAndenseignant($username , $email ,$password,$role,$diplomat){
+    public function setEtudiantAndenseignant($username , $email ,$password,$role,$diplomat,$status){
         try{
+            if ($role === 'etudiant'){
+                $status = "Activation";
+            } elseif ($role === 'enseignant'){
+                $status = "Not Active";
+            }
             $hashedPassword = password_hash($password , PASSWORD_DEFAULT);
-            $query = "INSERT INTO users (`name` , email , `password` , `role`) 
-            VALUES (?,?,?,?)";
+            $query = "INSERT INTO users (`name` , email , `password` , `role` , `status`) 
+            VALUES (?,?,?,?,?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->execute([$username , $email ,$hashedPassword ,$role]);
+            $stmt->execute([$username , $email ,$hashedPassword ,$role , $status]);
             $userId = $this->conn->lastInsertId();
             if ($role === 'etudiant'){
                 $this->addEtudiant($userId , ['deplome' => $diplomat]);
@@ -28,7 +33,7 @@ class EtudiantAndEnseignant {
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
             $stmt->execute([$userId]);
             $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-            return new Users($userData['email'] , $userData['password'] ,$userData['role']);
+            return new Users($userData['email'] , $userData['password'] ,$userData['role'],$userData['status']);
         } catch (\PDOException $e){
             error_log("Databse error:" .$e->getMessage());
             return null;
