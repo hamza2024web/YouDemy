@@ -51,6 +51,7 @@ class EtudiantAndEnseignant {
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$userId]);
     }
+    
 
 }
 ?>

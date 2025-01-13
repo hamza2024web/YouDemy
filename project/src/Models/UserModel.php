@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Classes\Users;
 use App\Config\Database;
 use PDO;
 
@@ -45,12 +46,21 @@ class UserModel {
         }
     }
     public function getAllUsers(){
-        $query = "SELECT users.name , users.email ,users.role ,users.status FROM users";
+        $query = "SELECT users.id , users.name , users.email ,users.role ,users.status FROM users";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $userData;
     }
+    public function editStatusById($id, $newstatus) {
+        $query = "UPDATE users SET status = :newstatus WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":newstatus", $newstatus);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        return true;
+    }
+    
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\EtudiantAndEnseignant;
+use App\Models\UserModel;
 
 class AuthContrRegistre {
     public function signup ($username , $email , $password , $role , $diplomat = null ,$status = null){
@@ -28,6 +29,11 @@ class AuthContrRegistre {
             }
         }
 
+    }
+    public function updateStatus($id , $newstatus){
+        $statusModel = new UserModel();
+        $statusUpdate = $statusModel->editStatusById($id , $newstatus);
+        return $statusUpdate;
     }
 }
 ?>

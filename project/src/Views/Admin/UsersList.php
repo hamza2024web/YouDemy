@@ -1,8 +1,16 @@
 <?php
 require_once("../../../vendor/autoload.php");
 
+use App\Controllers\AuthContrRegistre;
 use App\Controllers\UserControlle;
 
+if (isset($_POST["status"])) {
+    $id = $_POST["id"];
+    $newstatus = $_POST["status"];
+
+    $statusController = new AuthContrRegistre();
+    $statusController->updateStatus($id, $newstatus);
+}
 $userController = new UserControlle();
 $results = $userController->getUser();
 ?>
@@ -61,39 +69,27 @@ $results = $userController->getUser();
                                 <td class="px-6 py-4"><?= $result['name']; ?></td>
                                 <td class="px-6 py-4"><?= $result['email']; ?></td>
                                 <td class="px-6 py-4"><?= $result['role']; ?></td>
+                                <td class="px-6 py-4"><?= $result['status']; ?></td> 
                                 <td class="px-6 py-4 space-x-2">
-                                    <?php if ($result['status'] === "Activation") { ?>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
-                                            Activé
-                                        </button>
-                                    <?php } ?>
-                                    <?php if ($result['status'] === "suspension") { ?>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
-                                            suspendé
-                                        </button>
-                                    <?php } ?>
-                                    <?php if ($result['status'] === "Not Active") { ?>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
-                                            Désactivé
-                                        </button>
-                                    <?php } ?>
-                                </td>
-                                <td class="px-6 py-4 space-x-2">
-                                    <?php
-                                    if ($result['status'] === "Activation") { ?>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
-                                            suspendre
-                                        </button>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
-                                            Désactiver
-                                        </button>
-                                    <?php } ?>
-                                    <?php
-                                    if ($result['status'] === "Not Active") { ?>
-                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
-                                            Activer
-                                        </button>
-                                    <?php } ?>
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="id" value="<?= $result['id']; ?>">
+                                        <?php if ($result['status'] === "Activation") { ?>
+                                            <button type="submit" name="status" value="suspension" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
+                                                Suspendre
+                                            </button>
+                                            <button type="submit" name="status" value="Not Active" class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600">
+                                                Désactiver
+                                            </button>
+                                        <?php } elseif ($result['status'] === "suspension") { ?>
+                                            <button type="submit" name="status" value="Activation" class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600">
+                                                Activer
+                                            </button>
+                                        <?php } elseif ($result['status'] === "Not Active") { ?>
+                                            <button type="submit" name="status" value="Activation" class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600">
+                                                Activer
+                                            </button>
+                                        <?php } ?>
+                                    </form>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -103,5 +99,4 @@ $results = $userController->getUser();
         </div>
     </div>
 </body>
-
 </html>
