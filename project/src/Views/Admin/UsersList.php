@@ -1,6 +1,8 @@
 <?php
 require_once("../../../vendor/autoload.php");
+
 use App\Controllers\UserControlle;
+
 $userController = new UserControlle();
 $results = $userController->getUser();
 ?>
@@ -60,22 +62,39 @@ $results = $userController->getUser();
                                 <td class="px-6 py-4"><?= $result['email']; ?></td>
                                 <td class="px-6 py-4"><?= $result['role']; ?></td>
                                 <td class="px-6 py-4 space-x-2">
-                                    <button  type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
-                                        <?= $result['status']?>
-                                    </button>
+                                    <?php if ($result['status'] === "Activation") { ?>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
+                                            Activation
+                                        </button>
+                                    <?php } ?>
+                                    <?php if ($result['status'] === "suspension") { ?>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
+                                            suspension
+                                        </button>
+                                    <?php } ?>
+                                    <?php if ($result['status'] === "Not Active") { ?>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
+                                            Not Active
+                                        </button>
+                                    <?php } ?>
                                 </td>
                                 <td class="px-6 py-4 space-x-2">
-                                    <button  type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
-                                        Activé
-                                    </button>
-                                    <button  type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
-                                        Suspensé
-                                    </button>
-                                    <button  type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
-                                        Désactivé
-                                    </button>
+                                    <?php
+                                    if ($result['status'] === "Activation") { ?>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
+                                            suspensé
+                                        </button>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
+                                            Désactivé
+                                        </button>
+                                    <?php } ?>
+                                    <?php
+                                    if ($result['status'] === "Not Active") { ?>
+                                        <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
+                                            Activé
+                                        </button>
+                                    <?php } ?>
                                 </td>
-
                             </tr>
                         <?php } ?>
                     </tbody>
