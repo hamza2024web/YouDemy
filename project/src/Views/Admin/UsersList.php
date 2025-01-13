@@ -64,17 +64,17 @@ $results = $userController->getUser();
                                 <td class="px-6 py-4 space-x-2">
                                     <?php if ($result['status'] === "Activation") { ?>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
-                                            Activation
+                                            Activé
                                         </button>
                                     <?php } ?>
                                     <?php if ($result['status'] === "suspension") { ?>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
-                                            suspension
+                                            suspendé
                                         </button>
                                     <?php } ?>
                                     <?php if ($result['status'] === "Not Active") { ?>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
-                                            Not Active
+                                            Désactivé
                                         </button>
                                     <?php } ?>
                                 </td>
@@ -82,16 +82,16 @@ $results = $userController->getUser();
                                     <?php
                                     if ($result['status'] === "Activation") { ?>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-black-600">
-                                            suspensé
+                                            suspendre
                                         </button>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-black-600">
-                                            Désactivé
+                                            Désactiver
                                         </button>
                                     <?php } ?>
                                     <?php
                                     if ($result['status'] === "Not Active") { ?>
                                         <button class="px-3 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-black-600">
-                                            Activé
+                                            Activer
                                         </button>
                                     <?php } ?>
                                 </td>
