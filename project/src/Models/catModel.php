@@ -25,7 +25,7 @@ class catModel {
         $stmt->execute([$category_name]);
         $catId = $this->conn->lastInsertId();
 
-        $stmt = $this->conn->prepare("SELECT * FROM categories WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM categorie WHERE id = ?");
         $stmt->execute([$catId]);
         $catData = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -36,7 +36,7 @@ class catModel {
         }
     }
     public function editCatById($id , $cat_name_edit){
-        $stmt = $this->conn->prepare("UPDATE categories set category_name = :cat_name_edit WHERE id = :id");
+        $stmt = $this->conn->prepare("UPDATE categorie set category_name = :cat_name_edit WHERE id = :id");
         $stmt->bindParam(":cat_name_edit" , $cat_name_edit);
         $stmt->bindParam(":id" , $id);
         $stmt->execute();
@@ -49,7 +49,7 @@ class catModel {
         }
     }
     public function deleteCatById($id) {
-        $stmt = $this->conn->prepare("DELETE FROM categories WHERE id = :id");
+        $stmt = $this->conn->prepare("DELETE FROM categorie WHERE id = :id");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
     

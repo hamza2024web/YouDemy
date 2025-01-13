@@ -12,7 +12,7 @@ class catcontroller {
             echo "please check your code fetch ...";
         } else {
             $pathUrl = "/src/views";
-            header("location:" .$pathUrl . "categorie/tag.php");
+            header("location:" .$pathUrl . "Admin/categorie.php");
         }
     }
     public function setCat($category_name){
