@@ -1,20 +1,17 @@
-<?php
-session_start();
-$email = $_SESSION['email'];
-?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recruteurs - CreeLink</title>
+    <title>YouDemy - étudiant</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100 font-sans">
     <header class="bg-blue-600 text-white p-6">
-        <h1 class="text-4xl font-bold text-center">CreeLink - Candidat</h1>
+        <h1 class="text-4xl font-bold text-center">YouDemy - étudiant</h1>
         <p class="text-center mt-2">Trouvez les talents qui feront la différence dans votre entreprise.</p>
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
@@ -27,7 +24,7 @@ $email = $_SESSION['email'];
     </header>
 
     <main class="container mx-auto mt-8 p-4">
-        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue, le candidat <?= $email ?></h2>
+        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue, le candidat</h2>
         <p class="text-center text-lg">Connectez-vous avec des candidats talentueux et passionnés.</p>
         <p class="mt-4 text-center">Utilisez notre plateforme pour publier vos offres d'emploi et gérer les candidatures facilement.</p>
 

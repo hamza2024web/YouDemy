@@ -1,6 +1,7 @@
 <?php
 require_once("../../../vendor/autoload.php");
 use App\Controllers\AuthContrRegistre;
+
 if(isset($_POST["role"]) && $_POST["role"] === "etudiant"){
     if(isset($_POST["submit"])){
         if(empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["diplomat"])){
@@ -17,7 +18,7 @@ if(isset($_POST["role"]) && $_POST["role"] === "etudiant"){
     }
 } else if(isset($_POST["role"]) && $_POST["role"] === "enseignant"){
     if(isset($_POST["submit"])){
-      if(empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["companyName"])){
+      if(empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"])){
         echo "Check your inputs name ...";
       } else {
         $username = $_POST["name"];
@@ -25,7 +26,7 @@ if(isset($_POST["role"]) && $_POST["role"] === "etudiant"){
         $password = $_POST["password"];
         $role = $_POST["role"];
         $registre = new AuthContrRegistre();
-        $registre->Signup($username , $email , $password ,$role ,$diplomat = "");
+        $registre->Signup($username , $email , $password ,$role );
       }
     }
 }
@@ -40,18 +41,14 @@ if(isset($_POST["role"]) && $_POST["role"] === "etudiant"){
   <script>
     function toggleFields() {
         const role = document.getElementById('role').value;
-        const candidatFields = document.getElementById('candidatFields');
-        const recruteurFields = document.getElementById('recruteurFields');
+        const candidatFields = document.getElementById('etudiantFields');
         
         // Hide all fields initially
         candidatFields.style.display = 'none';
-        recruteurFields.style.display = 'none';
         
         // Show fields based on selected role
-        if (role === 'Candidat') {
+        if (role === 'etudiant') {
             candidatFields.style.display = 'block';
-        } else if (role === 'recruteurs') {
-            recruteurFields.style.display = 'block';
         }
     }
     // Ensure fields are toggled on page load
@@ -99,7 +96,7 @@ if(isset($_POST["role"]) && $_POST["role"] === "etudiant"){
               </div>
             </div>
             <!-- Candidat Specific Fields -->
-            <div id="candidatFields" style="display:none;">
+            <div id="etudiantFields" style="display:none;">
                 <div>
                     <label class="text-gray-800 text-sm mb-2 block">Diplomat</label>
                     <div class="relative flex items-center">
