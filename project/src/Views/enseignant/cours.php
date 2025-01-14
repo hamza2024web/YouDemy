@@ -30,7 +30,7 @@ if (isset($_POST["add"])) {
             $description = $_POST["discription"];
             $categoryId = $_POST["categorie"];
             $tagId = $_POST["tag"];
-            $basePath = $_SERVER['DOCUMENT_ROOT'];
+            $basePath = $_SERVER['DOCUMENT_ROOT'];  
             $fileUrl = $basePath . "/uploads/" . $fileName;
             $enseignant_id = $_SESSION["user_id"];
             $addCour = new CourController();

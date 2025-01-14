@@ -28,6 +28,10 @@ class UserModel {
         if (!$userData){
             return false;
         }
+        if ($userData['role'] === 'administrateur'){
+            return $userData;
+        }
+        
         if(password_verify($password , $userData['password'])){
             session_start();
             $_SESSION['user_id'] = $userData['id'];

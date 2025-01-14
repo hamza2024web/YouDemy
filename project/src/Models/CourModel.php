@@ -78,9 +78,10 @@ class CourModel {
             }
         }
         public function fetchCours(){
-            $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,cours.enseignant_id,cours.created_at FROM cours
+            $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,tag.tag_name as tag_name FROM cours
             INNER JOIN categorie ON categorie.id = cours.category_id
             INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
+            INNER JOIN users ON enseignant.user_id = users.id
             INNER JOIN avoir ON avoir.cour_id = cours.id
             INNER JOIN tag ON avoir.tag_id = tag.id";
             $stmt = $this->conn->prepare($query);
