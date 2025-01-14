@@ -16,7 +16,7 @@
         <nav class="mt-4">
             <ul class="flex justify-center space-x-6">
                 <li><a href="#" class="hover:underline">Accueil</a></li>
-                <li><a href="./formuleOffre.php" class="hover:underline">Offres d'emploi</a></li>
+                <li><a href="./cours.php" class="hover:underline">Offres d'emploi</a></li>
                 <li><a href="#" class="hover:underline">Contact</a></li>
             </ul>
         </nav>
@@ -28,7 +28,7 @@
         <p class="mt-4 text-center text-gray-600">Utilisez notre plateforme pour publier vos offres d'emploi et gérer les candidatures facilement.</p>
 
         <div class="flex justify-center mt-8">
-            <a href="./offre.php" class="bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none">Ajouter une Offre</a>
+            <a href="./cours.php" class="bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none">Ajouter une Offre</a>
         </div>
         <section class="mt-12">
             <h2 class="text-2xl font-semibold mb-6 text-center">Offres d'Emploi Récentes</h2>

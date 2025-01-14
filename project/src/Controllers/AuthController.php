@@ -13,10 +13,10 @@ class AuthController {
                 header("location:" .$pathUrl. "Admin/dashboard.php");
             } 
             else if($user['role'] === "etudiant"){
-                header("location:" .$pathUrl. "enseignant/home.php");
+                header("location:" .$pathUrl. "etudiant/home.php");
             }
             else if($user['role'] === "enseignant"){
-                header("location:".$pathUrl. "etudiant/home.php");
+                header("location:".$pathUrl. "enseignant/home.php");
             }
         } else {
             if ($user['status'] === "suspension"){
