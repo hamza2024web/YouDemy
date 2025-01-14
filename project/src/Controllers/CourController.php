@@ -27,6 +27,11 @@ class CourController {
         $courIsDeleted = $courDelete->deleteCour($id);
         return $courIsDeleted;
     }
+    public function numbreCours(){
+        $numbreCours = new CourModel();
+        $countCours = $numbreCours->numbreTotalCours();
+        return $countCours;
+    }
 }
 
 ?>

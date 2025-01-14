@@ -105,6 +105,17 @@ class CourModel {
                 return false; 
             }
         }
+        public function numbreTotalCours(){
+            $query = "SELECT count(*) as numbretotalCour FROM cours";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result['numbretotalCour'];
+            } else {
+                return false; 
+            }
+        }
 
 
 }
