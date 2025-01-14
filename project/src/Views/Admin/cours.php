@@ -4,6 +4,12 @@ require_once("../../../vendor/autoload.php");
 use App\Controllers\CourController;
 
 $coursFetch = new CourController();
+if (isset($_POST["delete"])){
+    $id = $_POST["cour_id"];
+
+    $deleteCour = new CourController();
+    $deleteCour->deleteCour($id);
+}
 $resultFetch = $coursFetch->fetchCour();
 
 ?>

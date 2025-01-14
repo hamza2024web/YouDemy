@@ -62,34 +62,56 @@ $resultsCours = $coursFetch->fetchCour();
             <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Cours Récents</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php foreach ($resultsCours as $cour) { ?>
-                    <div class="bg-white shadow-xl rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
-                            <h3 class="text-2xl font-semibold text-blue-600 mb-4 truncate"><?= $cour['titre'] ?></h3>
-                            <p class="text-gray-600 mb-2"><span class="font-medium">Date de création:</span> <?= $cour['created_at'] ?> </p>
-                            <p class="text-gray-600 mb-2"><span class="font-medium">categorie:</span> <?= $cour['category_name'] ?> </p>
-                            <p class="text-gray-600 mb-2"><span class="font-medium">tag:</span> <?= $cour['tag_name'] ?> </p>
-                            <p class="text-gray-700 mb-4"><?= substr($cour['descrption'], 0, 100) ?>...</p>
-                            <div class="flex justify-between items-center mt-4">
-                                <a href="<?= $cour['contenu']; ?>" download class="bg-green-500 text-white py-2 px-4 rounded shadow-md hover:bg-green-600">
-                                    Télécharger le PDF
+                            <!-- Title -->
+                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
+                            <!-- Date -->
+                            <p class="text-sm text-gray-500 mb-1">
+                                <i class="fas fa-calendar-alt mr-2"></i>Date de création:
+                                <span class="font-medium"><?= $cour['created_at'] ?></span>
+                            </p>
+                            <!-- Category -->
+                            <p class="text-sm text-gray-500 mb-1">
+                                <i class="fas fa-folder mr-2"></i>Catégorie:
+                                <span class="font-medium"><?= $cour['category_name'] ?></span>
+                            </p>
+                            <!-- Tag -->
+                            <p class="text-sm text-gray-500 mb-1">
+                                <i class="fas fa-tag mr-2"></i>Tag:
+                                <span class="font-medium"><?= $cour['tag_name'] ?></span>
+                            </p>
+                            <!-- Description -->
+                            <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
+                            <!-- Actions -->
+                            <div class="flex items-center justify-between">
+                                <!-- Download Button -->
+                                <a href="<?= $cour['contenu']; ?>" download
+                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                    <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
-                            </div>
-
-                            <div class="flex justify-between mt-4">
-                                <a href="edit.php?id=<? echo $cour['id']; ?>" class="bg-yellow-500 text-white py-2 px-4 rounded shadow-md flex items-center space-x-2 hover:bg-yellow-600">Modifier</a>
-
-                                <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
-                                    <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
-                                    <button type="submit" name="delete" class="bg-red-500 text-white py-2 px-4 rounded shadow-md flex items-center space-x-2 hover:bg-red-600">
-                                        <i class="fas fa-trash-alt"></i>
-                                        <span>Supprimer</span>
-                                    </button>
-                                </form>
+                                <!-- Edit & Delete Buttons -->
+                                <div class="flex space-x-2">
+                                    <!-- Edit -->
+                                    <a href="edit.php?id=<?= $cour['id']; ?>"
+                                        class="inline-flex items-center bg-yellow-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-yellow-600 transition">
+                                        <i class="fas fa-edit mr-2"></i>Modifier
+                                    </a>
+                                    <!-- Delete -->
+                                    <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
+                                        <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
+                                        <button type="submit" name="delete"
+                                            class="inline-flex items-center bg-red-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition">
+                                            <i class="fas fa-trash-alt mr-2"></i>Supprimer
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 <?php } ?>
             </div>
+
         </section>
 
         <!-- Contact Section -->
