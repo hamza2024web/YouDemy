@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Config\Database;
+use PDO;
 use PDOException;
 
 class CourModel {
@@ -74,6 +75,33 @@ class CourModel {
             } catch (PDOException $e){
                 echo "Error attaching tag to offer:" .$e->getMessage();
                 return null;
+            }
+        }
+        public function fetchCours(){
+            $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,cours.enseignant_id,cours.created_at FROM cours
+            INNER JOIN categorie ON categorie.id = cours.category_id
+            INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
+            INNER JOIN avoir ON avoir.cour_id = cours.id
+            INNER JOIN tag ON avoir.tag_id = tag.id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $courFetch = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $courFetch;
+        }
+        public function deleteCour($id){
+            $query = "DELETE FROM avoir WHERE cour_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":id",$id);
+            $stmt->execute();
+
+            $sql = "DELETE FROM cours WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":id",$id);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return true; 
+            } else {
+                return false; 
             }
         }
 

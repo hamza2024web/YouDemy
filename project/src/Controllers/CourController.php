@@ -17,6 +17,16 @@ class CourController {
             exit();
         }
     }
+    public function fetchCour(){
+        $courFetchModel = new CourModel();
+        $courFetch = $courFetchModel->fetchCours();
+        return $courFetch;
+    }
+    public function deleteCour($id){
+        $courDelete = new CourModel();
+        $courIsDeleted = $courDelete->deleteCour($id);
+        return $courIsDeleted;
+    }
 }
 
 ?>
