@@ -28,9 +28,6 @@ class UserModel {
         if (!$userData){
             return false;
         }
-        if ($userData){
-            return $userData;
-        }
         if(password_verify($password , $userData['password'])){
             session_start();
             $_SESSION['user_id'] = $userData['id'];
@@ -40,7 +37,6 @@ class UserModel {
 
             error_log("Login successfly for email: $email");
             return $userData;
-
         } else {
             return false;
         }

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("../../../vendor/autoload.php");
+
 use App\Controllers\catcontroller;
 use App\Controllers\tagController;
 use App\Controllers\CourController;
@@ -11,30 +12,30 @@ $resultsCats = $fetchCats->getCat();
 $fetchTags = new tagController();
 $resultsTags = $fetchTags->getTag();
 
-if(isset($_POST["add"])){
-    if(empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_FILES["contenu"]) || empty($_POST["discription"])){
+if (isset($_POST["add"])) {
+    if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_FILES["contenu"]) || empty($_POST["discription"])) {
         echo "Please fields your inputs ...";
     } else {
         $uploadDir = "../../uploads/";
         $fileName = basename($_FILES["contenu"]["name"]);
         $targetFilePath = $uploadDir . $fileName;
-        $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-        if($fileType !== "pdf"){
+        if ($fileType !== "pdf") {
             die("only PDF files are allowed");
         }
 
-        if(move_uploaded_file($_FILES["contenu"]["tmp_name"],$targetFilePath)){
+        if (move_uploaded_file($_FILES["contenu"]["tmp_name"], $targetFilePath)) {
             $titre = $_POST["titre"];
             $description = $_POST["discription"];
             $categoryId = $_POST["categorie"];
             $tagId = $_POST["tag"];
-            $fileUrl = "/uploads/" .$fileName;
+            $basePath = $_SERVER['DOCUMENT_ROOT'];
+            $fileUrl = $basePath . "/uploads/" . $fileName;
             $enseignant_id = $_SESSION["user_id"];
             $addCour = new CourController();
-            $addCour->addCour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
+            $addCour->addCour($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
         }
-
     }
 }
 

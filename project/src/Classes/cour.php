@@ -1,6 +1,7 @@
 <?php
+namespace App\Classes;
 
-class cour {
+class Cour {
     private $titre ;
     private $description;
     private $fileUrl;
@@ -18,8 +19,24 @@ class cour {
         $this->tagId=$tagId;
     }
 
-    public function getTitre
-}
+    public function getTitre(){
+        return $this->titre;
+    }
+    public function getDesc(){
+        return $this->description;
+    }
+    public function getFile(){
+        return $this->fileUrl;
+    }
+    public function getEnseignant(){
+        return $this->enseignant_id;
+    }
+    public function getCat(){
+        return $this->categoryId;
+    }
+    public function getTag(){
+        return $this->tagId;
+    }
 
-$titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId
+}
 ?>
