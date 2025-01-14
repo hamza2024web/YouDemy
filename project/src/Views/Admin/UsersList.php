@@ -28,17 +28,17 @@ $results = $userController->getUser();
 
 <body class="bg-gray-100">
     <div class="flex">
-        <!-- Sidebar -->
+        <!-- Sidebar --> 
         <aside class="bg-blue-600 text-white w-64 min-h-screen p-6">
             <h1 class="text-2xl font-bold text-center mb-6">YouDemy</h1>
             <nav>
                 <ul class="space-y-4">
-                <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
-                    <li><a href="./tag.php" class="flex items-center bg-blue-700 p-2 rounded"><i class="fas fa-tags"></i><span class="ml-2">Tags Utilisés</span></a></li>
-                    <li><a href="./categorie.php" class="flex items-center bg-blue-700 p-2 rounded"><i class="fas fa-tags"></i><span class="ml-2">Categorie Utilisés</span></a></li>
-                    <li><a href="./UsersList.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Users List</span></a></li>
-                    <li><a href="./cours.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Enseignant Cours</span></a></li>
-                    <li><a href="#" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Statistique</span></a></li>
+                <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
+                    <li><a href="./tag.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Tags Utilisés</span></a></li>
+                    <li><a href="./categorie.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Categorie Utilisés</span></a></li>
+                    <li><a href="./UsersList.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Users List</span></a></li>
+                    <li><a href="./cours.php" class="flex items-center bg-blue-700 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Enseignant Cours</span></a></li>
+                    <li><a href="./statistique.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Statistique</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -70,7 +70,7 @@ $results = $userController->getUser();
                                 <td class="px-6 py-4"><?= $result['name']; ?></td>
                                 <td class="px-6 py-4"><?= $result['email']; ?></td>
                                 <td class="px-6 py-4"><?= $result['role']; ?></td>
-                                <td class="px-6 py-4"><?= $result['status']; ?></td> 
+                                <td class="px-6 py-4"><?= $result['status']; ?></td>
                                 <td class="px-6 py-4 space-x-2">
                                     <form method="POST" action="">
                                         <input type="hidden" name="id" value="<?= $result['id']; ?>">
@@ -100,4 +100,5 @@ $results = $userController->getUser();
         </div>
     </div>
 </body>
+
 </html>

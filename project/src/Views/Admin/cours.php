@@ -4,7 +4,7 @@ require_once("../../../vendor/autoload.php");
 use App\Controllers\CourController;
 
 $coursFetch = new CourController();
-if (isset($_POST["delete"])){
+if (isset($_POST["delete"])) {
     $id = $_POST["cour_id"];
 
     $deleteCour = new CourController();
@@ -32,12 +32,12 @@ $resultFetch = $coursFetch->fetchCour();
             <h1 class="text-2xl font-bold text-center mb-6">YouDemy</h1>
             <nav>
                 <ul class="space-y-4">
-                <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
-                    <li><a href="./tag.php" class="flex items-center bg-blue-700 p-2 rounded"><i class="fas fa-tags"></i><span class="ml-2">Tags Utilisés</span></a></li>
-                    <li><a href="./categorie.php" class="flex items-center bg-blue-700 p-2 rounded"><i class="fas fa-tags"></i><span class="ml-2">Categorie Utilisés</span></a></li>
-                    <li><a href="./UsersList.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Users List</span></a></li>
-                    <li><a href="./cours.php" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Enseignant Cours</span></a></li>
-                    <li><a href="#" class="flex items-center hover:bg-blue-500 p-2 rounded"><i class="fas fa-chart-line"></i><span class="ml-2">Statistique</span></a></li>
+                <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
+                    <li><a href="./tag.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Tags Utilisés</span></a></li>
+                    <li><a href="./categorie.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Categorie Utilisés</span></a></li>
+                    <li><a href="./UsersList.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Users List</span></a></li>
+                    <li><a href="./cours.php" class="flex items-center bg-blue-700 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Enseignant Cours</span></a></li>
+                    <li><a href="./statistique.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Statistique</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -69,7 +69,9 @@ $resultFetch = $coursFetch->fetchCour();
                         <?php foreach ($resultFetch as $cour) { ?>
                             <tr class="hover:bg-gray-100 border-t border-gray-200">
                                 <td class="px-6 py-4"><?= $cour['titre']; ?></td>
-                                <td class="px-6 py-4"><p class="text-gray-700 mb-4"><?= substr($cour['descrption'],0,20); ?>...</p></td>
+                                <td class="px-6 py-4">
+                                    <p class="text-gray-700 mb-4"><?= substr($cour['descrption'], 0, 20); ?>...</p>
+                                </td>
                                 <td class="px-6 py-4"><?= $cour['contenu']; ?></td>
                                 <td class="px-6 py-4"><?= $cour['category_name']; ?></td>
                                 <td class="px-6 py-4"><?= $cour['tag_name']; ?></td>

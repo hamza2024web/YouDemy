@@ -32,6 +32,11 @@ class CourController {
         $countCours = $numbreCours->numbreTotalCours();
         return $countCours;
     }
+    public function NombreDeCoursEnseignant(){
+        $countCour = new CourModel();
+        $countCoursEnseignant = $countCour->CountCourEnseignant();
+        return $countCoursEnseignant;
+    }
 }
 
 ?>

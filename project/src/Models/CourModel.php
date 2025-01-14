@@ -116,6 +116,18 @@ class CourModel {
                 return false; 
             }
         }
+        public function CountCourEnseignant(){
+            $query = "SELECT COUNT(*) as numbreCour FROM cours
+            INNER JOIN enseignant ON enseignant.id = cours.enseignant_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result["numbreCour"];
+            } else {
+                return false;
+            }
+        }
 
 
 }
