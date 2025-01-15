@@ -171,6 +171,22 @@ class CourModel {
                 return null;
             }
         }
+        public function CountInscriptions(){
+            $enseignant_id = $_SESSION["user_id"];
+            $query = "SELECT COUNT(*) as numbreInscription FROM inscription
+            INNER JOIN cours ON inscription.cour_id = cours.id
+            INNER JOIN enseignant ON cours.enseignant_id = enseignant.id
+            WHERE enseignant.user_id = :enseignant_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":enseignant_id",$enseignant_id);
+            $stmt->execute();   
+            if($stmt->rowCount() >0){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result["numbreInscription"];
+            } else {
+                return false;
+            }
+        }
 
 
 }

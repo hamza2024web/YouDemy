@@ -49,6 +49,11 @@ class CourController {
         return $EtudiantPostuler;
        
     }
+    public function CountInscription(){
+        $CountInscription = new CourModel();
+        $countInscriptions = $CountInscription->CountInscriptions();
+        return $countInscriptions;
+    }
 }
 
 ?>

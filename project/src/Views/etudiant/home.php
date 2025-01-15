@@ -31,9 +31,7 @@ $results = $fetchCour->fetchCourEtudiant();
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
                 <li><a href="#" class="hover:underline">Accueil</a></li>
-                <li><a href="#" class="hover:underline">Cours</a></li>
-                <li><a href="#" class="hover:underline">Témoignages</a></li>
-                <li><a href="#" class="hover:underline">Contact</a></li>
+                <li><a href="#" class="hover:underline">Mes cours</a></li>            
             </ul>
         </nav>
     </header>

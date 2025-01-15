@@ -11,8 +11,12 @@ if (isset($_POST['delete'])) {
     $courControlle->deleteCour($id);
 }
 $resultsCours = $coursFetch->fetchCour();
+
 $countCour = new CourController();
 $resultCount = $countCour->NombreDeCoursEnseignant();
+
+$countCourInscrit = new CourController();
+$resultCountInscription = $countCourInscrit->CountInscription();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -169,6 +173,13 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
                 </div>
             </div>
             <p class="mt-4 text-lg text-gray-600 text-center">Ce chiffre reflète le nombre total de cours que vous avez publiés sur la plateforme.</p>
+            <div class="flex items-center justify-center space-x-4">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6 px-12 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold">Nombre d'étudiants inscrits</h3>
+                    <p class="text-4xl font-extrabold"><?= $resultCountInscription ?></p>
+                </div>
+            </div>
+            <p class="mt-4 text-lg text-gray-600 text-center">Ce chiffre reflète le nombre Nombre d'étudiants inscrits dans votre cours.</p>
         </section>
 
 
