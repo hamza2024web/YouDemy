@@ -1,11 +1,16 @@
 <?php
 require_once("../../../vendor/autoload.php");
-
 use App\Controllers\CourController;
 
 $fetchCour = new CourController();
-$results = $fetchCour->fetchCour();
 
+if (isset($_POST["inscription"])){
+    $idCour = $_POST["cour_id"];
+    header("location:./home.php");
+    $inscription = new CourController();
+    $inscription->inscription($idCour);
+}
+$results = $fetchCour->fetchCourEtudiant();
 ?>
 
 <!DOCTYPE html>
@@ -44,30 +49,22 @@ $results = $fetchCour->fetchCour();
                 <?php foreach ($results as $cour) { ?>
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
-                            <!-- enseignanat -->
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['enseignant_name'] ?></h3>
-                            <!-- Title -->
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
-                            <!-- Date -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>
                             </p>
-                            <!-- Category -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-folder mr-2"></i>Catégorie:
                                 <span class="font-medium"><?= $cour['category_name'] ?></span>
                             </p>
-                            <!-- Tag -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-tag mr-2"></i>Tag:
                                 <span class="font-medium"><?= $cour['tag_name'] ?></span>
                             </p>
-                            <!-- Description -->
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
-                            <!-- Actions -->
                             <div class="flex items-center justify-between">
-                                <!-- inscription button -->
                                 <form action="" method="POST" >
                                     <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
                                     <button type="submit" name="inscription"
@@ -75,7 +72,6 @@ $results = $fetchCour->fetchCour();
                                         <i class="fas fa-trash-alt mr-2"></i>inscription
                                     </button>
                                 </form>
-                                <!-- Download Button -->
                                 <a href="<?= $cour['contenu']; ?>" download
                                     class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF

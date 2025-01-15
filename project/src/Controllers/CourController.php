@@ -22,6 +22,11 @@ class CourController {
         $courFetch = $courFetchModel->fetchCours();
         return $courFetch;
     }
+    public function fetchCourEtudiant(){
+        $courFetchEtudiant = new CourModel();
+        $courFetchEtudiant = $courFetchEtudiant->fetchCoursEtudiant();
+        return $courFetchEtudiant;
+    }
     public function deleteCour($id){
         $courDelete = new CourModel();
         $courIsDeleted = $courDelete->deleteCour($id);
@@ -36,6 +41,13 @@ class CourController {
         $countCour = new CourModel();
         $countCoursEnseignant = $countCour->CountCourEnseignant();
         return $countCoursEnseignant;
+    }
+    public function inscription($idCour){
+        $inscriptionCour = new CourModel();
+        $EtudiantPostuler = $inscriptionCour->postuler($idCour);
+        echo "Inscription Succefuly";
+        return $EtudiantPostuler;
+       
     }
 }
 

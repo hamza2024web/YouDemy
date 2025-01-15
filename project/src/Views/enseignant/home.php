@@ -66,40 +66,29 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
                 <?php foreach ($resultsCours as $cour) { ?>
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
-                            <!-- Title -->
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
-                            <!-- Date -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>
                             </p>
-                            <!-- Category -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-folder mr-2"></i>Catégorie:
                                 <span class="font-medium"><?= $cour['category_name'] ?></span>
                             </p>
-                            <!-- Tag -->
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-tag mr-2"></i>Tag:
                                 <span class="font-medium"><?= $cour['tag_name'] ?></span>
                             </p>
-                            <!-- Description -->
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
-                            <!-- Actions -->
                             <div class="flex items-center justify-between">
-                                <!-- Download Button -->
                                 <a href="<?= $cour['contenu']; ?>" download
                                     class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
-                                <!-- Edit & Delete Buttons -->
                                 <div class="flex space-x-2">
-                                    <!-- Edit -->
-                                    <a href="edit.php?id=<?= $cour['id']; ?>"
-                                        class="inline-flex items-center bg-yellow-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-yellow-600 transition">
-                                        <i class="fas fa-edit mr-2"></i>Modifier
-                                    </a>
-                                    <!-- Delete -->
+                                    <button onclick="toggleFields(<?= $cour['id']?>)" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
+                                        Modifier
+                                    </button>
                                     <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
                                         <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
                                         <button type="submit" name="delete"
@@ -115,6 +104,62 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
             </div>
 
         </section>
+
+        <div class="max-w-4xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg" id="formModifier">
+            <form id="cour-form" class="space-y-6" action="" method="POST" enctype="multipart/form-data">
+                <div class="mb-6">
+                    <h3 class="text-gray-800 text-4xl font-extrabold">Add Offres</h3>
+                    <p class="text-gray-500 text-sm mt-2 leading-relaxed">Add your offre here, and explore more passionate candidates in our platform.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                    <div>
+                        <label for="tag" class="block text-gray-700 font-medium mb-2">Tags</label>
+                        <select name="tag" id="tag" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select a Tag</option>
+                            <?php
+                            foreach ($resultsTags as $resultTag) {
+                                echo "<option value='{$resultTag['id']}'>{$resultTag['tag_name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="categorie" class="block text-gray-700 font-medium mb-2">Categories</label>
+                        <select name="categorie" id="categorie" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select a Category</option>
+                            <?php
+                            foreach ($resultsCats as $resultCat) {
+                                echo "<option value='{$resultCat['id']}'>{$resultCat['category_name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="titre" class="block text-gray-700 font-medium mb-2">Titre</label>
+                    <input name="titre" id="titre" type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter post title">
+                </div>
+                <div>
+                    <label for="contenu" class="block text-gray-700 font-medium mb-2">Contenu</label>
+                    <input name="contenu" type="file" id="contenu" accept=".pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu"></textarea>
+                </div>
+                <div>
+                    <label for="discription" class="block text-gray-700 font-medium mb-2">Description</label>
+                    <textarea name="discription" id="discription" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter description"></textarea>
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit" name="add" class="w-full py-3 px-6 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        Add cours
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <section class="mt-16 bg-white shadow-xl rounded-lg p-8 max-w-md mx-auto">
             <h1 class="text-3xl font-semibold mb-6 text-center text-gray-800">Statistiques</h1>
             <div class="flex items-center justify-center space-x-4">
@@ -149,6 +194,7 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
             </form>
         </section>
 
+
     </main>
 
     <!-- Footer -->
@@ -157,5 +203,23 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
     </footer>
 
 </body>
+<script>
+    formModifier.style.display = 'none';
+    function toggleFields() {
+        const modifier = document.getElementById('modifier').innerText;
+        const formModifier = document.getElementById('formModifier');
+        if (modifier === 'Modifier') {
+            formModifier.style.display = 'block';
+        }
+        // function edit($id){
+        //     document.getElementById("add").name = "edit";
+        //     document.getElementById("add").innerHTML = "Modifier";
+        //     let name = document.getElementById("").innerHTML;
+        //     document.getElementById("titre").value = name;
+        //     document.getElementById("discription").value = name;
+        // }
+
+    }
+</script>
 
 </html>

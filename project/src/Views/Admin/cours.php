@@ -10,7 +10,7 @@ if (isset($_POST["delete"])) {
     $deleteCour = new CourController();
     $deleteCour->deleteCour($id);
 }
-$resultFetch = $coursFetch->fetchCour();
+$resultFetch = $coursFetch->fetchCourEtudiant();
 
 ?>
 
