@@ -54,6 +54,11 @@ class CourController {
         $countInscriptions = $CountInscription->CountInscriptions();
         return $countInscriptions;
     }
+    public function fetchCoursInscript(){
+        $fetchCoursInscript = new CourModel();
+        $coursInscript = $fetchCoursInscript->fetchMesCours();
+        return $coursInscript;
+    }
 }
 
 ?>

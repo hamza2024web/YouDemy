@@ -1,7 +1,7 @@
 <?php
-session_start();
-require_once("../../../vendor/autoload.php");
 
+require_once("../../../vendor/autoload.php");
+session_start();
 use App\Controllers\catcontroller;
 use App\Controllers\tagController;
 use App\Controllers\CourController;
@@ -20,6 +20,7 @@ if (isset($_POST["add"])) {
         $fileName = basename($_FILES["contenu"]["name"]);
         $targetFilePath = $uploadDir . $fileName;
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
 
         if ($fileType !== "pdf") {
             die("only PDF files are allowed");
