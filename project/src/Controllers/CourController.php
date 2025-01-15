@@ -2,13 +2,14 @@
 namespace App\Controllers;
 use App\Classes\Cour;
 use App\Models\CourModel;
+use App\Models\PdfCourModel;
 
 class CourController {
     public function addCour ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
         $cours = new Cour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
         
-        $CourModel = new CourModel();
-        $cour = $CourModel->CourModel($cours);
+        $CourModel = new PdfCourModel();
+        $cour = $CourModel->addCour($cours);
         if(!$cour){
             echo "Traitemnt error";
         } else {
@@ -18,44 +19,44 @@ class CourController {
         }
     }
     public function fetchCour(){
-        $courFetchModel = new CourModel();
+        $courFetchModel = new PdfCourModel();
         $courFetch = $courFetchModel->fetchCours();
         return $courFetch;
     }
     public function fetchCourEtudiant(){
-        $courFetchEtudiant = new CourModel();
+        $courFetchEtudiant = new PdfCourModel();
         $courFetchEtudiant = $courFetchEtudiant->fetchCoursEtudiant();
         return $courFetchEtudiant;
     }
     public function deleteCour($id){
-        $courDelete = new CourModel();
+        $courDelete = new PdfCourModel();
         $courIsDeleted = $courDelete->deleteCour($id);
         return $courIsDeleted;
     }
     public function numbreCours(){
-        $numbreCours = new CourModel();
+        $numbreCours = new PdfCourModel();
         $countCours = $numbreCours->numbreTotalCours();
         return $countCours;
     }
     public function NombreDeCoursEnseignant(){
-        $countCour = new CourModel();
+        $countCour = new PdfCourModel();
         $countCoursEnseignant = $countCour->CountCourEnseignant();
         return $countCoursEnseignant;
     }
     public function inscription($idCour){
-        $inscriptionCour = new CourModel();
+        $inscriptionCour = new PdfCourModel();
         $EtudiantPostuler = $inscriptionCour->postuler($idCour);
         echo "Inscription Succefuly";
         return $EtudiantPostuler;
        
     }
     public function CountInscription(){
-        $CountInscription = new CourModel();
+        $CountInscription = new PdfCourModel();
         $countInscriptions = $CountInscription->CountInscriptions();
         return $countInscriptions;
     }
     public function fetchCoursInscript(){
-        $fetchCoursInscript = new CourModel();
+        $fetchCoursInscript = new PdfCourModel();
         $coursInscript = $fetchCoursInscript->fetchMesCours();
         return $coursInscript;
     }
