@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-session_start();
+
 use App\Config\Database;
 use PDO;
 use PDOException;
@@ -17,10 +17,10 @@ class CourModel {
 
         public function CourModel($cours){
             try{
-                $enseignants_id = $_SESSION['user_id'];
+                $enseignantt = $cours->getEnseignant();
                 $enseignantQuery = "SELECT id FROM enseignant WHERE user_id = :user_id";
                 $enseignantStmt = $this->conn->prepare($enseignantQuery);
-                $enseignantStmt->bindParam(":user_id",$enseignants_id);
+                $enseignantStmt->bindParam(":user_id",$enseignantt);
                 $enseignantStmt->execute();
                 $enseignant = $enseignantStmt->fetch();
                 if (!$enseignant){
@@ -79,6 +79,7 @@ class CourModel {
             }
         }
         public function fetchCours(){
+            session_start();
             $enseignant = $_SESSION["user_id"];
             $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,tag.tag_name as tag_name FROM cours
             INNER JOIN categorie ON categorie.id = cours.category_id

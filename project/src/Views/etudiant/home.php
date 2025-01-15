@@ -1,6 +1,7 @@
 <?php
 require_once("../../../vendor/autoload.php");
 use App\Controllers\CourController;
+session_start();
 
 $fetchCour = new CourController();
 

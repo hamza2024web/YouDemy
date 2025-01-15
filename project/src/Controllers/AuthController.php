@@ -7,6 +7,7 @@ class AuthController {
     public function login($email , $password){
         $userModel = new UserModel();
         $user = $userModel->loginSession($email , $password);
+        
         if ($user['status'] === "Activation"){
             $pathUrl = "/src/Views/";
             if($user['role'] == "administrateur"){
