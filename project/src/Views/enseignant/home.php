@@ -25,6 +25,7 @@ $resultCount = $countCour->NombreDeCoursEnseignant();
 
 $countCourInscrit = new CourController();
 $resultCountInscription = $countCourInscrit->CountInscription();
+$pattern = '/^.*\.pdf$/i';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -103,10 +104,17 @@ $resultCountInscription = $countCourInscrit->CountInscription();
                             </p>
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
+                                <?php if (preg_match($pattern, $cour["contenu"])){?>
                                 <a href="<?= $cour['contenu']; ?>" download
                                     class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
+                                <?php } else { ?>
+                                <a href="<?= $cour['contenu']; ?>" download
+                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                    <i class="fas fa-download mr-2"></i>Watch VIDEO
+                                </a>
+                                <?php } ?>
                                 <div class="flex space-x-2">
                                     <button onclick="toggleFields(<?= $cour['id'] ?>)" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
                                         Modifier

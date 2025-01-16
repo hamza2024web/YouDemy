@@ -5,6 +5,7 @@ use App\Controllers\CourController;
 
 $fetchCours = new CourController();
 $results = $fetchCours->fetchCoursInscript();
+$pattern = '/^.*\.pdf$/i' ;
 ?>
 
 <!DOCTYPE html>
@@ -59,10 +60,17 @@ $results = $fetchCours->fetchCoursInscript();
                             </p>
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
+                                <?php if (preg_match($pattern , $cour["contenu"])) {?>
                                 <a href="<?= $cour['contenu']; ?>" download
                                     class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
+                                <?php } else {?>
+                                <a href="<?= $cour['contenu']; ?>" download
+                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                    <i class="fas fa-download mr-2"></i>Watch VIDEO                                
+                                </a>
+                                <?php }?>
                             </div>
                         </div>
                     </div>

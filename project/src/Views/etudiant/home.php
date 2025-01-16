@@ -20,7 +20,7 @@ if (isset($_POST['search'])) {
 } else {
     $results = $fetchCour->fetchCourEtudiant();
 }
-
+$pattern = '/^.*\.pdf$/i';
 ?>
 
 <!DOCTYPE html>
@@ -93,10 +93,17 @@ if (isset($_POST['search'])) {
                                         <i class="fas fa-trash-alt mr-2"></i>inscription
                                     </button>
                                 </form>
+                                <?php if (preg_match($pattern , $cour["contenu"])) {?>
                                 <a href="<?= $cour['contenu']; ?>" download
                                     class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
+                                <?php } else {?>
+                                <a href="<?= $cour['contenu']; ?>" download
+                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                    <i class="fas fa-download mr-2"></i>Watch VIDEO
+                                </a>
+                                <?php }?>
                             </div>
                         </div>
                     </div>
