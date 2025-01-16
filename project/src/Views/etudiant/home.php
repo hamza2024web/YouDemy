@@ -13,7 +13,14 @@ if (isset($_POST["inscription"])) {
     $inscription = new CourController();
     $inscription->inscription($idCour);
 }
-$results = $fetchCour->fetchCourEtudiant();
+$searchInput = "";
+if (isset($_POST['search'])) {
+    $searchInput = $_POST['searchInput'];
+    $results = $fetchCour->searchCourEtudiant($searchInput);
+} else {
+    $results = $fetchCour->fetchCourEtudiant();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -47,13 +54,24 @@ $results = $fetchCour->fetchCourEtudiant();
 
         <section class="mt-12">
             <h2 class="text-2xl font-semibold mb-6 text-center">Cours Récentes</h2>
+            
+
+            <form method="POST" class="mb-8">
+                <div class="flex justify-center">
+                    <input type="text" name="searchInput" class="border border-gray-300 rounded-l-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher un cours par titre, enseignant ou tag..." value="<?= $searchInput ?>">
+                    <button type="submit" name="search" class="bg-blue-500 text-white px-4 rounded-r-lg hover:bg-blue-600">
+                        Rechercher
+                    </button>
+                </div>
+            </form>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php foreach ($results as $cour) { ?>
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['enseignant_name'] ?></h3>
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
-                            <iframe width="430" height="315" src="<?=$cour["contenu"]?>" frameborder="0"></iframe>
+                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>

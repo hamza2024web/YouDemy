@@ -4,6 +4,7 @@ use App\Classes\Cour;
 use App\Models\CourModel;
 use App\Models\PdfCourModel;
 use App\Models\VideoCourModel;
+use App\Models\SearchModel;
 
 class CourController {
     public function addCour ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
@@ -74,6 +75,11 @@ class CourController {
         $fetchCoursInscript = new PdfCourModel();
         $coursInscript = $fetchCoursInscript->fetchMesCours();
         return $coursInscript;
+    }
+    public function searchCourEtudiant($searchInput){
+        $serchResult = new PdfCourModel();
+        $searchResults = $serchResult->search($searchInput);
+        return $searchResults;
     }
 }
 

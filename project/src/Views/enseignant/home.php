@@ -11,6 +11,7 @@ if (isset($_POST['delete'])) {
     $courControlle = new CourController();
     $courControlle->deleteCour($id);
 }
+
 $resultsCours = $coursFetch->fetchCour();
 
 $countCour = new CourController();
@@ -52,10 +53,19 @@ $resultCountInscription = $countCourInscrit->CountInscription();
 
         <!-- Introduction Section -->
         <section class="text-center">
-            <h2 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenue sur YouDemy <?= $_SESSION["email"]?></h2>
+            <h2 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenue sur YouDemy <?= $_SESSION["email"] ?></h2>
             <p class="text-xl text-gray-600 mb-4">Connectez-vous avec des étudiants talentueux et passionnés.</p>
             <p class="text-lg text-gray-500">Utilisez notre plateforme pour publier et gérer vos cours facilement.</p>
         </section>
+
+        <form method="POST" class="mb-8">
+            <div class="flex justify-center">
+                <input type="text" name="searchInput" class="border border-gray-300 rounded-l-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher un cours par titre, enseignant ou tag..." value="<?= $searchInput ?>">
+                <button type="submit" name="search" class="bg-blue-500 text-white px-4 rounded-r-lg hover:bg-blue-600">
+                    Rechercher
+                </button>
+            </div>
+        </form>
 
         <!-- Add a Course Button -->
         <div class="flex justify-center mt-8">
@@ -72,7 +82,7 @@ $resultCountInscription = $countCourInscrit->CountInscription();
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
-                            <iframe width="430" height="315" src="<?=$cour["contenu"]?>" frameborder="0"></iframe>
+                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>
@@ -167,43 +177,43 @@ $resultCountInscription = $countCourInscrit->CountInscription();
         </div>
 
         <section class="mt-16 bg-gray-50 shadow-xl rounded-lg p-8 max-w-md mx-auto">
-    <h1 class="text-3xl font-semibold mb-8 text-center text-gray-900">
-        Statistiques
-    </h1>
-    
-    <!-- Stats Card: Nombre de cours -->
-    <div class="flex flex-col items-center justify-center space-y-6">
-        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
-            <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
-                Nombre de cours
-            </h3>
-            <p class="text-5xl font-extrabold">
-                <?= $resultCount ?>
-            </p>
-        </div>
-        <p class="text-base text-gray-600 text-center px-6">
-            Ce chiffre reflète le nombre total de cours que vous avez publiés sur la plateforme.
-        </p>
-    </div>
+            <h1 class="text-3xl font-semibold mb-8 text-center text-gray-900">
+                Statistiques
+            </h1>
 
-    <!-- Divider -->
-    <hr class="my-8 border-gray-200 w-3/4 mx-auto">
+            <!-- Stats Card: Nombre de cours -->
+            <div class="flex flex-col items-center justify-center space-y-6">
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
+                    <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
+                        Nombre de cours
+                    </h3>
+                    <p class="text-5xl font-extrabold">
+                        <?= $resultCount ?>
+                    </p>
+                </div>
+                <p class="text-base text-gray-600 text-center px-6">
+                    Ce chiffre reflète le nombre total de cours que vous avez publiés sur la plateforme.
+                </p>
+            </div>
 
-    <!-- Stats Card: Nombre d'étudiants inscrits -->
-    <div class="flex flex-col items-center justify-center space-y-6">
-        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
-            <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
-                Nombre d'étudiants inscrits
-            </h3>
-            <p class="text-5xl font-extrabold">
-                <?= $resultCountInscription ?>
-            </p>
-        </div>
-        <p class="text-base text-gray-600 text-center px-6">
-            Ce chiffre reflète le nombre total d'étudiants inscrits dans vos cours.
-        </p>
-    </div>
-</section>
+            <!-- Divider -->
+            <hr class="my-8 border-gray-200 w-3/4 mx-auto">
+
+            <!-- Stats Card: Nombre d'étudiants inscrits -->
+            <div class="flex flex-col items-center justify-center space-y-6">
+                <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
+                    <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
+                        Nombre d'étudiants inscrits
+                    </h3>
+                    <p class="text-5xl font-extrabold">
+                        <?= $resultCountInscription ?>
+                    </p>
+                </div>
+                <p class="text-base text-gray-600 text-center px-6">
+                    Ce chiffre reflète le nombre total d'étudiants inscrits dans vos cours.
+                </p>
+            </div>
+        </section>
 
 
 

@@ -16,6 +16,7 @@ abstract class CourModel
     }
 
     abstract public function addCour($cours);
+    abstract public function search($searchInput){}
 
     public function attachCourToTag($courId, $tagId)
     {
