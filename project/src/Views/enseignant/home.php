@@ -11,8 +11,14 @@ if (isset($_POST['delete'])) {
     $courControlle = new CourController();
     $courControlle->deleteCour($id);
 }
+$searchInput = "";
+if (isset($_POST["search"])){
+    $searchInput = $_POST["searchInput"];
+    $resultsCours = $coursFetch->searchCourEnseignant($searchInput);
+} else {
+    $resultsCours = $coursFetch->fetchCour();
+}
 
-$resultsCours = $coursFetch->fetchCour();
 
 $countCour = new CourController();
 $resultCount = $countCour->NombreDeCoursEnseignant();

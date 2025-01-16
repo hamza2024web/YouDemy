@@ -64,7 +64,7 @@ class PdfCourModel extends CourModel {
         INNER JOIN users ON enseignant.user_id = users.id
         INNER JOIN avoir ON avoir.cour_id = cours.id
         INNER JOIN tag ON avoir.tag_id = tag.id
-        WHERE titre like :searchInput OR users.name like :searchInput";
+        WHERE titre like :searchInput OR users.name like :searchInput OR contenu LIKE :searchInput";
         $stmt = $this->conn->prepare($query);
         $search = "%$searchInput%";
         $stmt->bindParam(":searchInput" , $search);

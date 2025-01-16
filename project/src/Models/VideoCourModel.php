@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\CourModel;
 use PDOException;
+use PDO;
 
 class VideoCourModel extends CourModel
 {
@@ -55,6 +56,23 @@ class VideoCourModel extends CourModel
             echo "Error adding cours:" . $e->getMessage();
             return null;
         }
+    }
+    public function search($searchInput){
+        $enseigant = $_SESSION["user_id"];
+        $query = "SELECT cours.id,cours.titre , cours.descrption ,cours.contenu , cours.enseignant_id,cours.created_at ,users.name as enseignant_name , categorie.category_name , tag.tag_name as tag_name   FROM cours 
+        INNER JOIN categorie ON cours.category_id = categorie.id
+        INNER JOIN enseignant ON cours.enseignant_id = enseignant.id
+        INNER JOIN users ON enseignant.user_id = users.id
+        INNER JOIN avoir ON avoir.cour_id = cours.id
+        INNER JOIN tag ON avoir.tag_id = tag.id
+        WHERE titre like :searchInput AND users.id = :enseignant";
+        $stmt = $this->conn->prepare($query);
+        $search = "%$searchInput%";
+        $stmt->bindParam(":searchInput" , $search);
+        $stmt->bindParam(":enseignant",$enseigant);
+        $stmt->execute();
+        $searchResult = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $searchResult;
     }
 
 }

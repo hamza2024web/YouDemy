@@ -81,6 +81,11 @@ class CourController {
         $searchResults = $serchResult->search($searchInput);
         return $searchResults;
     }
+    public function searchCourEnseignant($searchInput){
+        $searchResult = new VideoCourModel();
+        $searchResults = $searchResult->search($searchInput);
+        return $searchResults ;
+    }
 }
 
 ?>
