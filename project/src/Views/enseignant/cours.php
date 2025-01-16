@@ -3,6 +3,7 @@
 require_once("../../../vendor/autoload.php");
 
 session_start();
+
 use App\Controllers\catcontroller;
 use App\Controllers\tagController;
 use App\Controllers\CourController;
@@ -33,10 +34,10 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
                 $description = $_POST["discription"];
                 $categoryId = $_POST["categorie"];
                 $tagId = $_POST["tag"];
-                $fileUrl ="/public/uploads/" . $fileName;
+                $fileUrl = "/public/uploads/" . $fileName;
                 $enseignant_id = $_SESSION["user_id"];
                 $addCour = new CourController();
-                $addCour->addCour($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+                $addCour->addCourPdf($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
             }
         }
     }
@@ -95,8 +96,7 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
 
                 <div>
                     <label for="tag" class="block text-gray-700 font-medium mb-2">Tags</label>
-                    <select name="tag" id="tag" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        <option value="">Select a Tag</option>
+                    <select name="tag[]" id="tag" multiple required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                         <?php
                         foreach ($resultsTags as $resultTag) {
                             echo "<option value='{$resultTag['id']}'>{$resultTag['tag_name']}</option>";
@@ -104,6 +104,7 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
                         ?>
                     </select>
                 </div>
+
 
                 <div>
                     <label for="categorie" class="block text-gray-700 font-medium mb-2">Categories</label>

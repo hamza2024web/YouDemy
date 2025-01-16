@@ -7,7 +7,7 @@ use App\Models\VideoCourModel;
 use App\Models\SearchModel;
 
 class CourController {
-    public function addCour ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
+    public function addCourPdf ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
         $cours = new Cour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
         
         $CourModel = new PdfCourModel();

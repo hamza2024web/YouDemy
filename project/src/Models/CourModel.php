@@ -24,9 +24,12 @@ abstract class CourModel
             $sql = "INSERT INTO avoir (cour_id , tag_id) 
                 VALUES (:cour_id , :tag_id)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(":cour_id", $courId);
-            $stmt->bindParam(":tag_id", $tagId);
-            return $stmt->execute();
+            foreach ($tagId as $tag){
+                $stmt->bindParam(":cour_id", $courId);
+                $stmt->bindParam(":tag_id", $tag);
+                $stmt->execute();
+            }
+            return $courId;
         } catch (PDOException $e) {
             echo "Error attaching tag to offer:" . $e->getMessage();
             return null;
@@ -36,13 +39,14 @@ abstract class CourModel
     public function fetchCours()
     {
         $enseignant = $_SESSION["user_id"];
-        $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,tag.tag_name as tag_name FROM cours
+        $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,GROUP_CONCAT(tag.tag_name) as tag_name FROM cours
             INNER JOIN categorie ON categorie.id = cours.category_id
             INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
             INNER JOIN users ON enseignant.user_id = users.id
             INNER JOIN avoir ON avoir.cour_id = cours.id
             INNER JOIN tag ON avoir.tag_id = tag.id
-            WHERE users.id = :enseignant";
+            WHERE users.id = :enseignant
+            GROUP BY cours.id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":enseignant", $enseignant);
         $stmt->execute();
@@ -51,12 +55,13 @@ abstract class CourModel
     }
     public function fetchCoursEtudiant()
     {
-        $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,tag.tag_name as tag_name FROM cours
+        $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,GROUP_CONCAT(tag.tag_name) as tag_name FROM cours
             INNER JOIN categorie ON categorie.id = cours.category_id
             INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
             INNER JOIN users ON enseignant.user_id = users.id
             INNER JOIN avoir ON avoir.cour_id = cours.id
-            INNER JOIN tag ON avoir.tag_id = tag.id";
+            INNER JOIN tag ON avoir.tag_id = tag.id
+            GROUP BY cours.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $courFetch = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -82,7 +87,7 @@ abstract class CourModel
     public function fetchMesCours()
     {
         $etudiant_id = $_SESSION["user_id"];
-        $query = "SELECT DISTINCT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,tag.tag_name as tag_name FROM cours
+        $query = "SELECT DISTINCT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,GROUP_CONCAT(tag.tag_name) as tag_name FROM cours
             INNER JOIN categorie ON categorie.id = cours.category_id
             INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
             INNER JOIN users ON enseignant.user_id = users.id
@@ -90,7 +95,8 @@ abstract class CourModel
             INNER JOIN tag ON avoir.tag_id = tag.id
             INNER JOIN inscription ON inscription.cour_id = cours.id
             INNER JOIN etudiant ON etudiant.id = inscription.etudiant_id
-            WHERE etudiant.user_id = :etudiant_id";
+            WHERE etudiant.user_id = :etudiant_id
+            GROUP BY cours.id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":etudiant_id", $etudiant_id);
         $stmt->execute();

@@ -58,13 +58,14 @@ class PdfCourModel extends CourModel {
         }
     }
     public function search($searchInput){
-        $query = "SELECT cours.id,cours.titre , cours.descrption ,cours.contenu , cours.enseignant_id,cours.created_at ,users.name as enseignant_name , categorie.category_name , tag.tag_name as tag_name   FROM cours 
+        $query = "SELECT cours.id,cours.titre , cours.descrption ,cours.contenu , cours.enseignant_id,cours.created_at ,users.name as enseignant_name , categorie.category_name , GROUP_CONCAT(tag.tag_name) as tag_name   FROM cours 
         INNER JOIN categorie ON cours.category_id = categorie.id
         INNER JOIN enseignant ON cours.enseignant_id = enseignant.id
         INNER JOIN users ON enseignant.user_id = users.id
         INNER JOIN avoir ON avoir.cour_id = cours.id
         INNER JOIN tag ON avoir.tag_id = tag.id
-        WHERE titre like :searchInput OR users.name like :searchInput OR contenu LIKE :searchInput";
+        WHERE titre like :searchInput OR users.name like :searchInput OR contenu LIKE :searchInput
+        GROUP BY cours.id";
         $stmt = $this->conn->prepare($query);
         $search = "%$searchInput%";
         $stmt->bindParam(":searchInput" , $search);
