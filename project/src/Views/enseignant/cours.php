@@ -18,7 +18,7 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
         if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_FILES["contenuPDF"]) || empty($_POST["discription"])) {
             echo "Please fields your inputs PDF...";
         } else {
-            $uploadDir = "../../uploads/";
+            $uploadDir = "../../../public/uploads/";
             $fileName = basename($_FILES["contenuPDF"]["name"]);
             $targetFilePath = $uploadDir . $fileName;
             $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -33,8 +33,7 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
                 $description = $_POST["discription"];
                 $categoryId = $_POST["categorie"];
                 $tagId = $_POST["tag"];
-                $baseUrl = $_SERVER["DOCUMENT_ROOT"];
-                $fileUrl = $baseUrl ."/uploads/" . $fileName;
+                $fileUrl ="/public/uploads/" . $fileName;
                 $enseignant_id = $_SESSION["user_id"];
                 $addCour = new CourController();
                 $addCour->addCour($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
@@ -46,14 +45,8 @@ if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
         if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_POST["contenuVideo"]) || empty($_POST["discription"])) {
             echo "Please fields your inputs Video...";
         } else {
-            $titre = $_POST["titre"];
-            $description = $_POST["discription"];
-            $categoryId = $_POST["categorie"];
-            $tagId = $_POST["tag"];
-            $fileUrl = $_POST["contenuVideo"];
-            $enseignant_id = $_SESSION["user_id"];
             $addCour = new CourController();
-            $addCour->addCourVideo($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+            $addCour->addCourVideo($_POST["titre"], $_POST["discription"], $_POST["contenuVideo"],  $_SESSION["user_id"], $_POST["categorie"], $_POST["tag"]);
         }
     }
 }

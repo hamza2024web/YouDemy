@@ -44,6 +44,7 @@ $results = $fetchCours->fetchCoursInscript();
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['enseignant_name'] ?></h3>
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
+                            <iframe width="430" height="315" src="<?=$cour["contenu"]?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>

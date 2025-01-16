@@ -30,7 +30,7 @@ $results = $fetchCour->fetchCourEtudiant();
 <body class="bg-gray-100 font-sans">
 
     <header class="bg-blue-600 text-white p-6">
-        <h1 class="text-5xl font-extrabold mb-4 animate-pulse">YouDemy - Etudiant</h1>
+        <h1 class="text-5xl font-extrabold mb-4 animate-pulse text-center">YouDemy - Etudiant</h1>
         <p class="text-center mt-2">Trouvez les talents qui feront la différence dans votre entreprise.</p>
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
@@ -53,6 +53,7 @@ $results = $fetchCour->fetchCourEtudiant();
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['enseignant_name'] ?></h3>
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
+                            <iframe width="430" height="315" src="<?=$cour["contenu"]?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>
