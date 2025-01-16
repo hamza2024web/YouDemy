@@ -4,7 +4,7 @@ namespace App\Models;
 use App\Models\CourModel;
 use PDOException;
 
-class CourVideo extends CourModel
+class VideoCourModel extends CourModel
 {
     public function addCour($cours)
     {

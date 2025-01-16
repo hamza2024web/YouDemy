@@ -1,5 +1,7 @@
 <?php
 require_once("../../../vendor/autoload.php");
+session_start();
+
 use App\Controllers\CourController;
 
 $coursFetch = new CourController();
@@ -50,7 +52,7 @@ $resultCountInscription = $countCourInscrit->CountInscription();
 
         <!-- Introduction Section -->
         <section class="text-center">
-            <h2 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenue sur YouDemy</h2>
+            <h2 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenue sur YouDemy <?= $_SESSION["email"]?></h2>
             <p class="text-xl text-gray-600 mb-4">Connectez-vous avec des étudiants talentueux et passionnés.</p>
             <p class="text-lg text-gray-500">Utilisez notre plateforme pour publier et gérer vos cours facilement.</p>
         </section>
@@ -70,6 +72,7 @@ $resultCountInscription = $countCourInscrit->CountInscription();
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
                             <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
+                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date de création:
                                 <span class="font-medium"><?= $cour['created_at'] ?></span>
@@ -89,7 +92,7 @@ $resultCountInscription = $countCourInscrit->CountInscription();
                                     <i class="fas fa-download mr-2"></i>Télécharger PDF
                                 </a>
                                 <div class="flex space-x-2">
-                                    <button onclick="toggleFields(<?= $cour['id']?>)" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
+                                    <button onclick="toggleFields(<?= $cour['id'] ?>)" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
                                         Modifier
                                     </button>
                                     <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
@@ -163,23 +166,45 @@ $resultCountInscription = $countCourInscrit->CountInscription();
             </form>
         </div>
 
-        <section class="mt-16 bg-white shadow-xl rounded-lg p-8 max-w-md mx-auto">
-            <h1 class="text-3xl font-semibold mb-6 text-center text-gray-800">Statistiques</h1>
-            <div class="flex items-center justify-center space-x-4">
-                <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6 px-12 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold">Nombre de cours</h3>
-                    <p class="text-4xl font-extrabold"><?= $resultCount ?></p>
-                </div>
-            </div>
-            <p class="mt-4 text-lg text-gray-600 text-center">Ce chiffre reflète le nombre total de cours que vous avez publiés sur la plateforme.</p>
-            <div class="flex items-center justify-center space-x-4">
-                <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6 px-12 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold">Nombre d'étudiants inscrits</h3>
-                    <p class="text-4xl font-extrabold"><?= $resultCountInscription ?></p>
-                </div>
-            </div>
-            <p class="mt-4 text-lg text-gray-600 text-center">Ce chiffre reflète le nombre Nombre d'étudiants inscrits dans votre cours.</p>
-        </section>
+        <section class="mt-16 bg-gray-50 shadow-xl rounded-lg p-8 max-w-md mx-auto">
+    <h1 class="text-3xl font-semibold mb-8 text-center text-gray-900">
+        Statistiques
+    </h1>
+    
+    <!-- Stats Card: Nombre de cours -->
+    <div class="flex flex-col items-center justify-center space-y-6">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
+            <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
+                Nombre de cours
+            </h3>
+            <p class="text-5xl font-extrabold">
+                <?= $resultCount ?>
+            </p>
+        </div>
+        <p class="text-base text-gray-600 text-center px-6">
+            Ce chiffre reflète le nombre total de cours que vous avez publiés sur la plateforme.
+        </p>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-8 border-gray-200 w-3/4 mx-auto">
+
+    <!-- Stats Card: Nombre d'étudiants inscrits -->
+    <div class="flex flex-col items-center justify-center space-y-6">
+        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
+            <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
+                Nombre d'étudiants inscrits
+            </h3>
+            <p class="text-5xl font-extrabold">
+                <?= $resultCountInscription ?>
+            </p>
+        </div>
+        <p class="text-base text-gray-600 text-center px-6">
+            Ce chiffre reflète le nombre total d'étudiants inscrits dans vos cours.
+        </p>
+    </div>
+</section>
+
 
 
         <!-- Contact Section -->
@@ -215,6 +240,7 @@ $resultCountInscription = $countCourInscrit->CountInscription();
 </body>
 <script>
     formModifier.style.display = 'none';
+
     function toggleFields() {
         const modifier = document.getElementById('modifier').innerText;
         const formModifier = document.getElementById('formModifier');

@@ -1,8 +1,8 @@
 <?php
 
 require_once("../../../vendor/autoload.php");
-session_start();
 
+session_start();
 use App\Controllers\catcontroller;
 use App\Controllers\tagController;
 use App\Controllers\CourController;
@@ -13,30 +13,47 @@ $resultsCats = $fetchCats->getCat();
 $fetchTags = new tagController();
 $resultsTags = $fetchTags->getTag();
 
-if (isset($_POST["add"])) {
-    if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_FILES["contenu"]) || empty($_POST["discription"])) {
-        echo "Please fields your inputs ...";
-    } else {
-        $uploadDir = "../../uploads/";
-        $fileName = basename($_FILES["contenuPDF"]["name"]);
-        $targetFilePath = $uploadDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
+    if (isset($_POST["add"])) {
+        if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_FILES["contenuPDF"]) || empty($_POST["discription"])) {
+            echo "Please fields your inputs PDF...";
+        } else {
+            $uploadDir = "../../uploads/";
+            $fileName = basename($_FILES["contenuPDF"]["name"]);
+            $targetFilePath = $uploadDir . $fileName;
+            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
 
-        if ($fileType !== "pdf") {
-            die("only PDF files are allowed");
+            if ($fileType !== "pdf") {
+                die("only PDF files are allowed");
+            }
+
+            if (move_uploaded_file($_FILES["contenuPDF"]["tmp_name"], $targetFilePath)) {
+                $titre = $_POST["titre"];
+                $description = $_POST["discription"];
+                $categoryId = $_POST["categorie"];
+                $tagId = $_POST["tag"];
+                $baseUrl = $_SERVER["DOCUMENT_ROOT"];
+                $fileUrl = $baseUrl ."/uploads/" . $fileName;
+                $enseignant_id = $_SESSION["user_id"];
+                $addCour = new CourController();
+                $addCour->addCour($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+            }
         }
-
-        if (move_uploaded_file($_FILES["contenuPDF"]["tmp_name"], $targetFilePath)) {
+    }
+} elseif (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "VIDEO") {
+    if (isset($_POST["add"])) {
+        if (empty($_POST["tag"]) || empty($_POST["categorie"]) || empty($_POST["titre"]) || empty($_POST["contenuVideo"]) || empty($_POST["discription"])) {
+            echo "Please fields your inputs Video...";
+        } else {
             $titre = $_POST["titre"];
             $description = $_POST["discription"];
             $categoryId = $_POST["categorie"];
             $tagId = $_POST["tag"];
-            $basePath = $_SERVER['DOCUMENT_ROOT'];
-            $fileUrl = $basePath . "/uploads/" . $fileName;
+            $fileUrl = $_POST["contenuVideo"];
             $enseignant_id = $_SESSION["user_id"];
             $addCour = new CourController();
-            $addCour->addCour($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+            $addCour->addCourVideo($titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
         }
     }
 }
@@ -53,35 +70,32 @@ if (isset($_POST["add"])) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-    function toggleFields() {
-        const role = document.getElementById('role').value;
-        const candidatFields = document.getElementById('PdfFields');
-        const recruteurFields = document.getElementById('VideoFields');
-        
-        // Hide all fields initially
-        PdfFields.style.display = 'none';
-        VideoFields.style.display = 'none';
-        
-        // Show fields based on selected role
-        if (role === 'PDF') {
-            PdfFields.style.display = 'block';
-        } else if (role === 'VIDEO') {
-            VideoFields.style.display = 'block';
+        function toggleFields() {
+            const contenuSelect = document.getElementById('contenuSelect').value;
+            const candidatFields = document.getElementById('PdfFields');
+            const recruteurFields = document.getElementById('VideoFields');
+
+            PdfFields.style.display = 'none';
+            VideoFields.style.display = 'none';
+
+            if (contenuSelect === 'PDF') {
+                PdfFields.style.display = 'block';
+            } else if (contenuSelect === 'VIDEO') {
+                VideoFields.style.display = 'block';
+            }
         }
-    }
-    // Ensure fields are toggled on page load
-    window.onload = function() {
-        toggleFields();
-    }
-  </script>
+        window.onload = function() {
+            toggleFields();
+        }
+    </script>
 </head>
 
 <body class="bg-gray-100">
     <div class="max-w-4xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg">
         <form id="cour-form" class="space-y-6" action="" method="POST" enctype="multipart/form-data">
             <div class="mb-6">
-                <h3 class="text-gray-800 text-4xl font-extrabold">Add Offres</h3>
-                <p class="text-gray-500 text-sm mt-2 leading-relaxed">Add your offre here, and explore more passionate candidates in our platform.</p>
+                <h3 class="text-gray-800 text-4xl font-extrabold">Add Cours</h3>
+                <p class="text-gray-500 text-sm mt-2 leading-relaxed">Add your Cours here, and explore more passionate candidates in our platform.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -110,30 +124,30 @@ if (isset($_POST["add"])) {
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <select name="contenuSelect" id="contenuSelect" required onchange="toggleFields()">
+            <div>
+                <label for="contenuSelect" class="block text-gray-700 font-medium mb-2">Choice The Type Of Your Content</label>
+                <select name="contenuSelect" id="contenuSelect" required onchange="toggleFields()" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     <option value="">Choisir un Choix</option>
                     <option value="PDF">PDF</option>
                     <option value="VIDEO">VIDEO</option>
                 </select>
             </div>
 
-            <div>
-                <label for="titre" class="block text-gray-700 font-medium mb-2">Titre</label>
-                <input name="titre" id="titre" type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter post title">
-            </div>
-
             <div id="PdfFields" style="display:none;">
                 <div>
-                    <label for="contenuPDF" class="block text-gray-700 font-medium mb-2">Contenu</label>
+                    <label for="contenuPDF" class="block text-gray-700 font-medium mb-2">Contenu PDF</label>
                     <input name="contenuPDF" type="file" id="contenu" accept=".pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu"></textarea>
                 </div>
             </div>
             <div id="VideoFields" style="display:none;">
                 <div>
-                    <label for="contenuVideo" class="block text-gray-700 font-medium mb-2">Contenu</label>
-                    <input name="contenuVideo" type="file" id="contenu" accept=".pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu"></textarea>
+                    <label for="contenuVideo" class="block text-gray-700 font-medium mb-2">Contenu VIDEO</label>
+                    <input name="contenuVideo" type="text" id="contenu" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu https//:...."></textarea>
                 </div>
+            </div>
+            <div>
+                <label for="titre" class="block text-gray-700 font-medium mb-2">Titre</label>
+                <input name="titre" id="titre" type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter post title">
             </div>
 
             <div>

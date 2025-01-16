@@ -1,11 +1,13 @@
 <?php
 require_once("../../../vendor/autoload.php");
+
 use App\Controllers\CourController;
+
 session_start();
 
 $fetchCour = new CourController();
 
-if (isset($_POST["inscription"])){
+if (isset($_POST["inscription"])) {
     $idCour = $_POST["cour_id"];
     header("location:./home.php");
     $inscription = new CourController();
@@ -26,20 +28,20 @@ $results = $fetchCour->fetchCourEtudiant();
 </head>
 
 <body class="bg-gray-100 font-sans">
-    
+
     <header class="bg-blue-600 text-white p-6">
-        <h1 class="text-4xl font-bold text-center">YouDemy - étudiant</h1>
+        <h1 class="text-5xl font-extrabold mb-4 animate-pulse">YouDemy - Etudiant</h1>
         <p class="text-center mt-2">Trouvez les talents qui feront la différence dans votre entreprise.</p>
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
                 <li><a href="./home.php" class="hover:underline">Accueil</a></li>
-                <li><a href="./MesCours.php" class="hover:underline">Mes cours</a></li>            
+                <li><a href="./MesCours.php" class="hover:underline">Mes cours</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="container mx-auto mt-8 p-4">
-        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue, l'Etudiant <?= $_SESSION["email"]?></h2>
+        <h2 class="text-3xl font-semibold mb-6 text-center">Bienvenue, l'Etudiant <?= $_SESSION["email"] ?></h2>
         <p class="text-center text-lg">Connectez-vous avec des enseignants talentueux et passionnés.</p>
         <p class="mt-4 text-center">Utilisez notre plateforme pour avancer dans votre career.</p>
 
@@ -65,7 +67,7 @@ $results = $fetchCour->fetchCourEtudiant();
                             </p>
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
-                                <form action="" method="POST" >
+                                <form action="" method="POST">
                                     <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
                                     <button type="submit" name="inscription"
                                         class="inline-flex items-center bg-blue-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">

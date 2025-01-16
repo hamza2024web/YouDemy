@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Classes\Cour;
 use App\Models\CourModel;
 use App\Models\PdfCourModel;
+use App\Models\VideoCourModel;
 
 class CourController {
     public function addCour ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
@@ -18,6 +19,20 @@ class CourController {
             exit();
         }
     }
+    public function addCourVideo ($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
+        $cours = new Cour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
+        
+        $CourModel = new VideoCourModel();
+        $cour = $CourModel->addCour($cours);
+        if(!$cour){
+            echo "Traitemnt error";
+        } else {
+            $pathUrl = "/src/Views/";
+            header("location:" .$pathUrl. "enseignant/home.php");
+            exit();
+        }
+    }
+    
     public function fetchCour(){
         $courFetchModel = new PdfCourModel();
         $courFetch = $courFetchModel->fetchCours();
