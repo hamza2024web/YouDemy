@@ -19,12 +19,6 @@ class tagController {
     public function setTag($tag_name){
         $tagModel = new tagModel();
         $tag = $tagModel->setTagName($tag_name);
-
-        if($tag == null){
-            echo "please verifiy your input ...";
-        } else {
-            return $tag;
-        }
     }
     public function editTag($id , $tag_name_edit){
         $tagModelEdit = new tagModel();

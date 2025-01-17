@@ -73,5 +73,47 @@ class PdfCourModel extends CourModel {
         $searchResult = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $searchResult;
     }
+    public function editCour($cours , $id){
+        try {
+            $enseignant_id = $cours->getEnseignant();
+            $query = "SELECT * from enseignant WHERE id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":user_id",$enseignant_id);
+            $stmt->execute();
+            $enseignant = $stmt->fetch();
+            $enseignantt = $enseignant["id"];
+            $category_id = $cours->getCat();
+            $query = "SELECT * FROM categorie WHERE id = :category_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":category_id",$category_id);
+            $stmt->execute();
+            $categoryy = $stmt->fetch();
+            $category_iid = $categoryy["id"];
+            $query = "UPDATE cours set titre = :titre , descrption = :description , contenu = :contenu ,enseignant_id = :enseignant, category_id = :catgeory_id
+            WHERE id = :id";
+            $titre = $cours->getTitre();
+            $description = $cours->getDesc();
+            $contenu = $cours->getFile();
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":id",$id);
+            $stmt->bindParam(":titre",$titre);
+            $stmt->bindParam(":description",$description);
+            $stmt->bindParam(":contenu",$contenu);
+            $stmt->bindParam(":enseignant_id",$enseignantt);
+            $stmt->bindParam(":category_id",$category_iid);
+            $isCourInserted = $stmt->execute();
+            $courId = $this->conn->lastInsertId();
+            if ($isCourInserted && $courId){
+                $attachCourToTag = $this->attachCourToTag($courId , $cours->getTag());
+                if ($attachCourToTag){
+                    return $cours;
+                }
+            }
+            return null;
+            } catch (PDOException $e) {
+                echo "Error adding cours:" .$e->getMessage();
+                return null;
+            }
+    }
 }
 ?>

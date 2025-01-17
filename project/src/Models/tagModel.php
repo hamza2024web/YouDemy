@@ -19,21 +19,14 @@ class tagModel {
         return $tagData;
     }
     public function setTagName($tag_name){
-            $query = "INSERT INTO tag (tag_name) VALUES (?)";
+            $tags = array_map('trim', explode(',', $tag_name));
+            $query = "INSERT INTO tag (tag_name) VALUES (:tag_name)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":tag_name", $tag_name);
-            $stmt->execute([$tag_name]);
-            $tagId = $this->conn->lastInsertId();
-
-            $stmt = $this->conn->prepare("SELECT * FROM tag where id = ?");
-            $stmt->execute([$tagId]);
-            $tagData = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if (!$tagData){
-                return null;
-            } else {
-                return new tag($tagData["id"] , $tagData["tag_name"]);
+            foreach($tags as $tag){
+                $stmt->bindParam(":tag_name", $tag);
+                $stmt->execute();
             }
+        
     }
     public function editTagById($id , $tag_name_edit){
         $stmt = $this->conn->prepare("UPDATE tag set tag_name = :tag_name_edit WHERE id = :id");

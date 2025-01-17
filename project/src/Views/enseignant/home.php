@@ -3,6 +3,14 @@ require_once("../../../vendor/autoload.php");
 session_start();
 
 use App\Controllers\CourController;
+use App\Controllers\catcontroller;
+use App\Controllers\tagController;
+
+$fetchCats = new catcontroller();
+$resultsCats = $fetchCats->getCat();
+
+$fetchTags = new tagController();
+$resultsTags = $fetchTags->getTag();
 
 $coursFetch = new CourController();
 if (isset($_POST['delete'])) {
@@ -12,13 +20,52 @@ if (isset($_POST['delete'])) {
     $courControlle->deleteCour($id);
 }
 $searchInput = "";
-if (isset($_POST["search"])){
+if (isset($_POST["search"])) {
     $searchInput = $_POST["searchInput"];
     $resultsCours = $coursFetch->searchCourEnseignant($searchInput);
 } else {
     $resultsCours = $coursFetch->fetchCour();
 }
 
+if (isset($_POST["modifier"])) {
+    if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "VIDEO") {
+        if (empty($_POST["titre"]) || empty($_POST["discription"]) || empty($_POST["contenuVideo"]) || empty($_POST["categorie"]) || empty($_POST["tag"])) {
+            echo "please ensure your input have the correct values";
+        } else {
+            $id = $_POST["id_cour"];
+            $titre = $_POST["titre"];
+            $description = $_POST["discription"];
+            $fileUrl = $_POST["contenuVideo"];
+            $categoryId = $_POST["categorie"];
+            $tagId = $_POST["tag"];
+            $enseignant_id = $_SESSION["user_id"];
+            $courModifier = new CourController();
+            $newVersionCour = $courModifier->editCourVideo($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+        }
+    } else {
+        if (empty($_POST["titre"]) || empty($_POST["discription"]) || empty($_FILES["contenuPDF"]) || empty($_POST["categorie"]) || empty($_POST["tag"])) {
+            echo "please ensure your input have the correct values";
+        } else {
+            $uploadDir = "../../../public/uploads";
+            $fileName = basename($_FILES["contenuPDF"]["name"]);
+            $targetFile = $uploadDir . $fileName;
+            $fileType = pathinfo($targetFile, PATHINFO_EXTENSION);
+
+            if ($fileType !== "pdf") {
+                die("only PDF files are allowed");
+            }
+
+            $id = $_POST["id_cour"];
+            $titre = $_POST["titre"];
+            $description = $_POST["discription"];
+            $fileUrl = "/public/uploads/" . $fileName;
+            $categoryId = $_POST["categorie"];
+            $tagId = $_POST["tag"];
+            $courModifier = new CourController();
+            $newVersionCour = $courModifier->editCourPdf($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
+        }
+    }
+}
 
 $countCour = new CourController();
 $resultCount = $countCour->NombreDeCoursEnseignant();
@@ -55,10 +102,9 @@ $pattern = '/^.*\.pdf$/i';
         </div>
     </header>
 
-    <!-- Main content -->
+
     <main class="container mx-auto mt-12 p-8">
 
-        <!-- Introduction Section -->
         <section class="text-center">
             <h2 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenue sur YouDemy <?= $_SESSION["email"] ?></h2>
             <p class="text-xl text-gray-600 mb-4">Connectez-vous avec des étudiants talentueux et passionnés.</p>
@@ -74,14 +120,12 @@ $pattern = '/^.*\.pdf$/i';
             </div>
         </form>
 
-        <!-- Add a Course Button -->
         <div class="flex justify-center mt-8">
             <a href="./cours.php" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 px-6 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none transform transition-transform hover:scale-110">
                 Ajouter un Cours
             </a>
         </div>
 
-        <!-- Recent Courses Section -->
         <section class="mt-16">
             <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Cours Récents</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -104,19 +148,19 @@ $pattern = '/^.*\.pdf$/i';
                             </p>
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
-                                <?php if (preg_match($pattern, $cour["contenu"])){?>
-                                <a href="<?= $cour['contenu']; ?>" download
-                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
-                                    <i class="fas fa-download mr-2"></i>Télécharger PDF
-                                </a>
+                                <?php if (preg_match($pattern, $cour["contenu"])) { ?>
+                                    <a href="<?= $cour['contenu']; ?>" download
+                                        class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                        <i class="fas fa-download mr-2"></i>Télécharger PDF
+                                    </a>
                                 <?php } else { ?>
-                                <a href="<?= $cour['contenu']; ?>" download
-                                    class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
-                                    <i class="fas fa-download mr-2"></i>Watch VIDEO
-                                </a>
+                                    <a href="<?= $cour['contenu']; ?>" download
+                                        class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                        <i class="fas fa-download mr-2"></i>Watch VIDEO
+                                    </a>
                                 <?php } ?>
                                 <div class="flex space-x-2">
-                                    <button onclick="toggleFields(<?= $cour['id'] ?>)" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
+                                    <button onclick="toggleFields(<?= $cour['id']; ?>, '<?= htmlspecialchars($cour['titre'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['descrption'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['tag_name'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['category_name'], ENT_QUOTES, 'UTF-8'); ?>')" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
                                         Modifier
                                     </button>
                                     <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
@@ -137,6 +181,7 @@ $pattern = '/^.*\.pdf$/i';
 
         <div class="max-w-4xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg" id="formModifier">
             <form id="cour-form" class="space-y-6" action="" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id_cour" value="<?= $cour["id"] ?>">
                 <div class="mb-6">
                     <h3 class="text-gray-800 text-4xl font-extrabold">Add Offres</h3>
                     <p class="text-gray-500 text-sm mt-2 leading-relaxed">Add your offre here, and explore more passionate candidates in our platform.</p>
@@ -146,7 +191,7 @@ $pattern = '/^.*\.pdf$/i';
 
                     <div>
                         <label for="tag" class="block text-gray-700 font-medium mb-2">Tags</label>
-                        <select name="tag" id="tag" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <select name="tag[]" id="tag" multiple required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                             <option value="">Select a Tag</option>
                             <?php
                             foreach ($resultsTags as $resultTag) {
@@ -174,8 +219,25 @@ $pattern = '/^.*\.pdf$/i';
                     <input name="titre" id="titre" type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter post title">
                 </div>
                 <div>
-                    <label for="contenu" class="block text-gray-700 font-medium mb-2">Contenu</label>
-                    <input name="contenu" type="file" id="contenu" accept=".pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu"></textarea>
+                    <label for="contenuSelect" class="block text-gray-700 font-medium mb-2">Choice The Type Of Your Content</label>
+                    <select name="contenuSelect" id="contenuSelect" required onchange="toggleFields()" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">Choisir un Choix</option>
+                        <option value="PDF">PDF</option>
+                        <option value="VIDEO">VIDEO</option>
+                    </select>
+                </div>
+
+                <div id="PdfFields" style="display:none;">
+                    <div>
+                        <label for="contenuPDF" class="block text-gray-700 font-medium mb-2">Contenu PDF</label>
+                        <input name="contenuPDF" type="file" id="contenu" accept=".pdf" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu"></textarea>
+                    </div>
+                </div>
+                <div id="VideoFields" style="display:none;">
+                    <div>
+                        <label for="contenuVideo" class="block text-gray-700 font-medium mb-2">Contenu VIDEO</label>
+                        <input name="contenuVideo" type="text" id="contenu" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter Contenu https//:...."></textarea>
+                    </div>
                 </div>
                 <div>
                     <label for="discription" class="block text-gray-700 font-medium mb-2">Description</label>
@@ -183,8 +245,8 @@ $pattern = '/^.*\.pdf$/i';
                 </div>
 
                 <div class="mt-6">
-                    <button type="submit" name="add" class="w-full py-3 px-6 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        Add cours
+                    <button type="submit" name="modifier" class="w-full py-3 px-6 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        Modifier
                     </button>
                 </div>
             </form>
@@ -195,7 +257,7 @@ $pattern = '/^.*\.pdf$/i';
                 Statistiques
             </h1>
 
-            <!-- Stats Card: Nombre de cours -->
+
             <div class="flex flex-col items-center justify-center space-y-6">
                 <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
                     <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
@@ -210,10 +272,10 @@ $pattern = '/^.*\.pdf$/i';
                 </p>
             </div>
 
-            <!-- Divider -->
+
             <hr class="my-8 border-gray-200 w-3/4 mx-auto">
 
-            <!-- Stats Card: Nombre d'étudiants inscrits -->
+
             <div class="flex flex-col items-center justify-center space-y-6">
                 <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white py-8 px-10 rounded-lg shadow-lg w-full">
                     <h3 class="text-xl font-semibold uppercase tracking-wide mb-2">
@@ -231,7 +293,7 @@ $pattern = '/^.*\.pdf$/i';
 
 
 
-        <!-- Contact Section -->
+
         <section class="mt-16">
             <h2 class="text-3xl font-semibold mb-6 text-center text-gray-800">Contactez-Nous</h2>
             <form class="bg-white shadow-xl rounded-lg p-8 max-w-lg mx-auto">
@@ -256,7 +318,6 @@ $pattern = '/^.*\.pdf$/i';
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white text-center py-6 mt-16">
         <p>&copy; 2025 YouDemy. Tous droits réservés.</p>
     </footer>
@@ -265,19 +326,29 @@ $pattern = '/^.*\.pdf$/i';
 <script>
     formModifier.style.display = 'none';
 
-    function toggleFields() {
-        const modifier = document.getElementById('modifier').innerText;
-        const formModifier = document.getElementById('formModifier');
-        if (modifier === 'Modifier') {
-            formModifier.style.display = 'block';
+    function toggleFields(id, title = "", description = "", tagName = "", categoryName = "") {
+        const contenuSelect = document.getElementById('contenuSelect').value;
+        const candidatFields = document.getElementById('PdfFields');
+        const recruteurFields = document.getElementById('VideoFields');
+
+        PdfFields.style.display = 'none';
+        VideoFields.style.display = 'none';
+
+        if (contenuSelect === 'PDF') {
+            PdfFields.style.display = 'block';
+        } else if (contenuSelect === 'VIDEO') {
+            VideoFields.style.display = 'block';
         }
-        // function edit($id){
-        //     document.getElementById("add").name = "edit";
-        //     document.getElementById("add").innerHTML = "Modifier";
-        //     let name = document.getElementById("").innerHTML;
-        //     document.getElementById("titre").value = name;
-        //     document.getElementById("discription").value = name;
-        // }
+        const formModifier = document.getElementById("formModifier");
+        const titreInput = document.getElementById("titre");
+        const descriptionInput = document.getElementById("discription");
+        const tagSelect = document.getElementById("tag");
+        const categorySelect = document.getElementById("categorie");
+
+        formModifier.style.display = "block";
+
+        if (titreInput) titreInput.value = title;
+        if (descriptionInput) descriptionInput.value = description;
 
     }
 </script>

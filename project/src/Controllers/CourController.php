@@ -33,6 +33,19 @@ class CourController {
             exit();
         }
     }
+
+    public function editCourVideo($id,$titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
+        $cours = new Cour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
+        $UpdateCour = new VideoCourModel();
+        $resultUpdate = $UpdateCour->editCour($cours , $id);
+        return $resultUpdate;
+    }
+    public function editCourPdf($id,$titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId){
+        $cours = new Cour($titre,$description,$fileUrl,$enseignant_id,$categoryId,$tagId);
+        $UpdateCour = new PdfCourModel();
+        $resultUpdate = $UpdateCour->editCour($cours , $id);
+        return $resultUpdate;
+    }
     
     public function fetchCour(){
         $courFetchModel = new PdfCourModel();
