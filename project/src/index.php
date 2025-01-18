@@ -14,6 +14,7 @@ if (isset($_POST['search'])) {
 if (isset($_POST["inscription"])){
   header("location:../src/Views/auth/signup.php");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +31,25 @@ if (isset($_POST["inscription"])){
   <header class="bg-white shadow-sm sticky top-0 z-10">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-blue-600">Youdemy</h1>
-      <nav class="flex space-x-4">
+      <nav class="flex items-center space-x-6">
         <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600">Courses</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <div class="flex space-x-4">
+          <a href="./Views/auth/login.php">
+            <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none shadow-md transition">
+              Sign In
+            </button>
+          </a>
+          <a href="./Views/auth/signup.php">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:ring focus:ring-green-300 focus:outline-none shadow-md transition">
+              Register
+            </button>
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="flex-grow">
-    <!-- Hero Section -->
     <section class="bg-gradient-to-br from-blue-500 to-green-500 text-white py-20">
       <div class="container mx-auto text-center space-y-8">
         <h2 class="text-5xl font-extrabold">Find Your Dream Cours</h2>
@@ -55,26 +63,6 @@ if (isset($_POST["inscription"])){
       </div>
     </section>
 
-    <!-- Call-to-Action Buttons -->
-    <section class="py-16 bg-gray-50">
-      <div class="container mx-auto text-center">
-        <h3 class="text-3xl font-bold text-gray-800 mb-6">Get Started Today!</h3>
-        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-          <a href="./Views/auth/login.php" class="w-full md:w-auto">
-            <button class="w-full md:w-52 py-4 px-6 text-lg font-bold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none shadow-md transition-transform transform hover:scale-105">
-              Sign In
-            </button>
-          </a>
-          <a href="./Views/auth/signup.php" class="w-full md:w-auto">
-            <button class="w-full md:w-52 py-4 px-6 text-lg font-bold rounded-lg text-white bg-green-600 hover:bg-green-700 focus:ring focus:ring-green-300 focus:outline-none shadow-md transition-transform transform hover:scale-105">
-              Register
-            </button>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Courses Section -->
     <section class="py-16">
       <div class="container mx-auto">
         <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Available Courses</h3>
@@ -109,7 +97,6 @@ if (isset($_POST["inscription"])){
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="bg-gray-100 border-t mt-12">
     <div class="container mx-auto px-6 py-4 text-center text-gray-600 text-sm">
       &copy; <?php echo date("Y"); ?> Youdemy. All rights reserved.
@@ -118,3 +105,4 @@ if (isset($_POST["inscription"])){
 
 </body>
 </html>
+
