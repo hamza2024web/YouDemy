@@ -134,6 +134,8 @@ $results = $catControllerFetch->getCat();
             let name = document.getElementById('catName' + id).innerHTML;
             document.getElementById('catInput').value = name;
             document.getElementById('catIdInput').value = id;
+            
+            return confirm('Are you sure?');
         }
     </script>
 </body>

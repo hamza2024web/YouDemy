@@ -81,8 +81,8 @@ $pattern = '/^.*\.pdf$/i';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enseignant - YouDemy</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="bg-gradient-to-br from-gray-100 via-blue-100 to-gray-200 font-sans">
@@ -132,20 +132,18 @@ $pattern = '/^.*\.pdf$/i';
                 <?php foreach ($resultsCours as $cour) { ?>
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate"><?= $cour['titre'] ?></h3>
-                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Title: <?= $cour['titre'] ?></h3> <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-calendar-alt mr-2"></i>Date de création:
-                                <span class="font-medium"><?= $cour['created_at'] ?></span>
+                                <i class="fas fa-calendar-alt mr-2"></i>Date: <span class="font-medium"><?= $cour['created_at'] ?></span>
                             </p>
                             <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-folder mr-2"></i>Catégorie:
-                                <span class="font-medium"><?= $cour['category_name'] ?></span>
+                                <i class="fas fa-folder mr-2"></i>Category: <span class="font-medium"><?= $cour['category_name'] ?></span>
                             </p>
+
                             <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-tag mr-2"></i>Tag:
-                                <span class="font-medium"><?= $cour['tag_name'] ?></span>
+                                <i class="fas fa-tag mr-2"></i>Tag: <span class="font-medium"><?= $cour['tag_name'] ?></span>
                             </p>
+
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
                                 <?php if (preg_match($pattern, $cour["contenu"])) { ?>
