@@ -204,4 +204,19 @@ abstract class CourModel
         $inscription = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $inscription ;
     }
+    public function CountCourPlusEtudiant(){
+        $query = "SELECT cours.titre , COUNT(inscription.etudiant_id) as numbre_etudiant FROM cours
+        INNER JOIN inscription ON cours.id = inscription.cour_id
+        GROUP BY cours.id , cours.titre
+        ORDER BY  numbre_etudiant DESC
+        LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['titre'];
+        } else {
+            return false;
+        }
+    }
 }

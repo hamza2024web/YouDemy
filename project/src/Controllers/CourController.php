@@ -108,6 +108,11 @@ class CourController {
         $inscriptionForEnseignant = $inscriptionFetch->fetchEnseignantInscription();
         return $inscriptionForEnseignant;
     }
+    public function courPlusEtudiant(){
+        $plusEtudiant = new PdfCourModel();
+        $countPlusEtudiant = $plusEtudiant->CountCourPlusEtudiant();
+        return $countPlusEtudiant;
+    }
 }
 
 ?>

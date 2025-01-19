@@ -5,6 +5,7 @@ use App\Controllers\CourController;
 require_once("../../../vendor/autoload.php");
 $staticFetch = new CourController();
 $results = $staticFetch->numbreCours();
+$plusEtudiant = $staticFetch->courPlusEtudiant();
 
 ?>
 <!DOCTYPE html>
@@ -53,7 +54,7 @@ $results = $staticFetch->numbreCours();
                     <tr class="hover:bg-gray-100 border-t border-gray-200">
                         <td class="px-6 py-4"><?= $results; ?></td>
                         <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
+                        <td class="px-6 py-4"><?= $plusEtudiant ?></td>
                         <td class="px-6 py-4"></td>
                     </tr>
                 </tbody>
