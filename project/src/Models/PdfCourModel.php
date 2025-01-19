@@ -101,10 +101,13 @@ class PdfCourModel extends CourModel {
             $stmt->bindParam(":contenu",$contenu);
             $stmt->bindParam(":enseignant_id",$enseignantt);
             $stmt->bindParam(":category_id",$category_iid);
-            $isCourInserted = $stmt->execute();
-            $courId = $this->conn->lastInsertId();
-            if ($isCourInserted && $courId){
-                $attachCourToTag = $this->attachCourToTag($courId , $cours->getTag());
+            $isCourUpdated = $stmt->execute();
+            if ($isCourUpdated){
+                $queryDeleteTag = "DELETE FROM avoir WHERE cour_id = :id";
+                $stmtDelete = $this->conn->prepare($queryDeleteTag);
+                $stmtDelete->bindParam(":id",$id);
+                $stmtDelete->execute();
+                $attachCourToTag = $this->attachCourToTag($id,$cours->getTag());
                 if ($attachCourToTag){
                     return $cours;
                 }

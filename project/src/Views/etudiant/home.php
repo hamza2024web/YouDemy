@@ -83,6 +83,7 @@ $pattern = '/^.*\.pdf$/i';
                             <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
                             <div class="flex items-center justify-between">
                                 <form action="" method="POST">
+                                <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
                                     <button type="submit" name="inscription" class="inline-flex items-center bg-blue-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">
                                         <i class="fas fa-user-plus mr-2"></i>Inscription
                                     </button>

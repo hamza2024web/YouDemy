@@ -94,9 +94,8 @@ $pattern = '/^.*\.pdf$/i';
             <p class="text-lg font-medium">Trouvez les talents qui feront la différence dans votre entreprise.</p>
             <nav class="mt-6">
                 <ul class="flex justify-center space-x-8 text-lg font-medium">
-                    <li><a href="#" class="hover:underline">Accueil</a></li>
                     <li><a href="./cours.php" class="hover:underline">Cours</a></li>
-                    <li><a href="#" class="hover:underline">Contact</a></li>
+                    <li><a href="./inscription.php" class="hover:underline">Inscriptions</a></li>
                 </ul>
             </nav>
         </div>

@@ -189,4 +189,19 @@ abstract class CourModel
     $courFetch = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $courFetch;
     }
+    public function fetchEnseignantInscription(){
+        session_start();
+        $enseignant = $_SESSION["user_id"];
+        $query = "SELECT etudiant.id ,users.name as etudiant_name , users.email as etudiant_email , cours.titre ,inscription.date_postuler FROM inscription 
+        INNER JOIN etudiant ON inscription.etudiant_id = etudiant.id
+        INNER JOIN users ON etudiant.user_id = users.id
+        INNER JOIN cours ON inscription.cour_id = cours.id
+        INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
+        WHERE enseignant.user_id = :enseignant";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":enseignant",$enseignant);
+        $stmt->execute();
+        $inscription = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $inscription ;
+    }
 }

@@ -10,7 +10,7 @@ if (isset($_POST['search'])) {
   $searchInput = $_POST['searchInput'];
   $results = $fetchCour->searchCourEtudiant($searchInput);
 } else {
-  $pagination = $_GET['page'];
+  $pagination = isset($_GET['page']) ? (int)$_GET['page'] : 6;
   $results = $fetchCour->paginationVisieur($pagination);
 }
 if (isset($_POST["inscription"])) {
@@ -36,7 +36,6 @@ if (isset($_POST["inscription"])) {
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-blue-600">Youdemy</h1>
       <nav class="flex items-center space-x-6">
-        <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
         <div class="flex space-x-4">
           <a href="./Views/auth/login.php">
             <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none shadow-md transition">

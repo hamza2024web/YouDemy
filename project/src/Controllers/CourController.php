@@ -75,7 +75,6 @@ class CourController {
     public function inscription($idCour){
         $inscriptionCour = new PdfCourModel();
         $EtudiantPostuler = $inscriptionCour->postuler($idCour);
-        echo "Inscription Succefuly";
         return $EtudiantPostuler;
        
     }
@@ -103,6 +102,11 @@ class CourController {
         $courFetchEtudiant = new PdfCourModel();
         $courFetchEtudiant = $courFetchEtudiant->pagination($pagination);
         return $courFetchEtudiant;
+    }
+    public function fetchInscription(){
+        $inscriptionFetch = new PdfCourModel();
+        $inscriptionForEnseignant = $inscriptionFetch->fetchEnseignantInscription();
+        return $inscriptionForEnseignant;
     }
 }
 
