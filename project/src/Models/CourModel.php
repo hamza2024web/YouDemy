@@ -175,7 +175,7 @@ abstract class CourModel
             return false;
         }
     }
-    public function pagination(){
+    public function pagination($pagination){
     $query = "SELECT cours.id ,cours.titre , cours.descrption ,cours.contenu,cours.category_id,categorie.category_name as category_name ,cours.enseignant_id,users.name as enseignant_name,cours.created_at,GROUP_CONCAT(tag.tag_name) as tag_name FROM cours
         INNER JOIN categorie ON categorie.id = cours.category_id
         INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
@@ -183,7 +183,7 @@ abstract class CourModel
         INNER JOIN avoir ON avoir.cour_id = cours.id
         INNER JOIN tag ON avoir.tag_id = tag.id
         GROUP BY cours.id
-        Limit 0,6";
+        Limit $pagination";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     $courFetch = $stmt->fetchAll(PDO::FETCH_ASSOC);

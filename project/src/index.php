@@ -3,21 +3,24 @@
 require_once("../vendor/autoload.php");
 
 use App\Controllers\CourController;
+
 $fetchCour = new CourController();
 $searchInput = "";
 if (isset($_POST['search'])) {
-    $searchInput = $_POST['searchInput'];
-    $results = $fetchCour->searchCourEtudiant($searchInput);
+  $searchInput = $_POST['searchInput'];
+  $results = $fetchCour->searchCourEtudiant($searchInput);
 } else {
-    $results = $fetchCour->paginationVisieur();
+  $pagination = $_GET['page'];
+  $results = $fetchCour->paginationVisieur($pagination);
 }
-if (isset($_POST["inscription"])){
+if (isset($_POST["inscription"])) {
   header("location:../src/Views/auth/signup.php");
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +28,7 @@ if (isset($_POST["inscription"])){
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
   <!-- Header -->
@@ -96,6 +100,23 @@ if (isset($_POST["inscription"])){
       </div>
     </section>
   </main>
+  <div class="pagination mt-8 flex justify-center items-center space-x-4">
+    <nav class="flex space-x-4">
+      <a href="?page=6"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-blue-500 hover:text-white transition shadow-md">
+        Page 1
+      </a>
+      <a href="?page=12"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-blue-500 hover:text-white transition shadow-md">
+        Page 2
+      </a>
+      <a href="?page=36"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-blue-500 hover:text-white transition shadow-md">
+        Page 3
+      </a>
+    </nav>
+  </div>
+
 
   <footer class="bg-gray-100 border-t mt-12">
     <div class="container mx-auto px-6 py-4 text-center text-gray-600 text-sm">
@@ -104,5 +125,5 @@ if (isset($_POST["inscription"])){
   </footer>
 
 </body>
-</html>
 
+</html>

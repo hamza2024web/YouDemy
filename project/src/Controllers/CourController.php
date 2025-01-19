@@ -99,9 +99,9 @@ class CourController {
         $searchResults = $searchResult->search($searchInput);
         return $searchResults ;
     }
-    public function paginationVisieur(){
+    public function paginationVisieur($pagination){
         $courFetchEtudiant = new PdfCourModel();
-        $courFetchEtudiant = $courFetchEtudiant->pagination();
+        $courFetchEtudiant = $courFetchEtudiant->pagination($pagination);
         return $courFetchEtudiant;
     }
 }
