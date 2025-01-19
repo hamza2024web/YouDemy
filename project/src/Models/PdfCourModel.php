@@ -115,5 +115,6 @@ class PdfCourModel extends CourModel {
                 return null;
             }
     }
+
 }
 ?>

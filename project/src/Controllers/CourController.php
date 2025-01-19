@@ -99,6 +99,11 @@ class CourController {
         $searchResults = $searchResult->search($searchInput);
         return $searchResults ;
     }
+    public function paginationVisieur(){
+        $courFetchEtudiant = new PdfCourModel();
+        $courFetchEtudiant = $courFetchEtudiant->pagination();
+        return $courFetchEtudiant;
+    }
 }
 
 ?>

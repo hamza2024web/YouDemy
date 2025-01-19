@@ -9,7 +9,7 @@ if (isset($_POST['search'])) {
     $searchInput = $_POST['searchInput'];
     $results = $fetchCour->searchCourEtudiant($searchInput);
 } else {
-    $results = $fetchCour->fetchCourEtudiant();
+    $results = $fetchCour->paginationVisieur();
 }
 if (isset($_POST["inscription"])){
   header("location:../src/Views/auth/signup.php");
