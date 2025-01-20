@@ -259,4 +259,15 @@ abstract class CourModel
             return false ;
         }
     }
+    public function CountEnseignant(){
+        $query = "SELECT COUNT(enseignant.user_id) as numbre_enseignant FROM enseignant";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() >0 ){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $results["numbre_enseignant"];
+        } else {
+            return false ;
+        }
+    }
 }

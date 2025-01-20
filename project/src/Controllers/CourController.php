@@ -128,6 +128,11 @@ class CourController {
         $results = $numbreOfEtudiants->CountEtudiants();
         return $results;
     }
+    public function CountEnseignant(){
+        $numbreOfEnseignant = new PdfCourModel();
+        $results = $numbreOfEnseignant->CountEnseignant();
+        return $results;
+    }
 }
 
 ?>

@@ -2,8 +2,9 @@
 require_once("../../../vendor/autoload.php");
 use App\Controllers\CourController;
 
-$etudiant = new CourController();
-$countEtudiant = $etudiant->CountEtudiant();
+$Membres = new CourController();
+$countEtudiant = $Membres->CountEtudiant();
+$countEnseignant = $Membres->CountEnseignant();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,13 +44,8 @@ $countEtudiant = $etudiant->CountEtudiant();
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-white shadow-lg rounded-lg p-4">
-                    <h3 class="font-bold text-xl">Candidatures soumises</h3>
-                    <p class="text-2xl mt-2">35</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-white shadow-lg rounded-lg p-4">
-                    <h3 class="font-bold text-xl">Nouveaux utilisateurs</h3>
-                    <p class="text-2xl mt-2">15</p>
+                    <h3 class="font-bold text-xl">Numbre D'Enseignant</h3>
+                    <p class="text-2xl mt-2"><?= $countEnseignant?></p>
                 </div>
             </div>
         </main>
