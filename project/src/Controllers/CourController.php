@@ -118,6 +118,11 @@ class CourController {
         $countTopEnseignant = $TopEnseignant->countTopEnseignant();
         return $countTopEnseignant;
     }
+    public function categorieNumbre(){
+        $numbreCategorie = new PdfCourModel();
+        $numbreRepartitionCategorie = $numbreCategorie->repartitionCategorie();
+        return $numbreRepartitionCategorie;
+    }
 }
 
 ?>
