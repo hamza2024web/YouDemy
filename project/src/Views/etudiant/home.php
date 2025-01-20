@@ -9,7 +9,7 @@ $fetchCour = new CourController();
 
 if (isset($_POST["inscription"])) {
     $idCour = $_POST["cour_id"];
-    header("location:./home.php");
+    header("location:./MesCours.php");
     $inscription = new CourController();
     $inscription->inscription($idCour);
 }
