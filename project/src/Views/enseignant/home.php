@@ -140,7 +140,8 @@ $pattern = '/^.*\.pdf$/i';
                 <?php foreach ($resultsCours as $cour) { ?>
                     <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
                         <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Title: <?= $cour['titre'] ?></h3> <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Title: <?= $cour['titre'] ?></h3> 
+                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
                             <p class="text-sm text-gray-500 mb-1">
                                 <i class="fas fa-calendar-alt mr-2"></i>Date: <span class="font-medium"><?= $cour['created_at'] ?></span>
                             </p>
