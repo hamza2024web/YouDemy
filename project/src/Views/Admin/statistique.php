@@ -6,6 +6,7 @@ require_once("../../../vendor/autoload.php");
 $staticFetch = new CourController();
 $results = $staticFetch->numbreCours();
 $plusEtudiant = $staticFetch->courPlusEtudiant();
+$TopEnseignant = $staticFetch->TopEnseignant();
 
 ?>
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ $plusEtudiant = $staticFetch->courPlusEtudiant();
         <!-- Main Content -->
         <main class="flex-1 p-6">
             <h2 class="text-3xl font-semibold text-gray-900 mb-6">Statistiques des Cours</h2>
-            
+
             <!-- Table -->
             <table class="min-w-full table-auto border-collapse bg-white rounded-lg shadow-lg overflow-hidden">
                 <thead class="bg-gray-800 text-white">
@@ -55,7 +56,13 @@ $plusEtudiant = $staticFetch->courPlusEtudiant();
                         <td class="px-6 py-4"><?= $results; ?></td>
                         <td class="px-6 py-4"></td>
                         <td class="px-6 py-4"><?= $plusEtudiant ?></td>
-                        <td class="px-6 py-4"></td>
+                        <td class="px-6 py-4">
+                            <ul>
+                                <?php foreach ($TopEnseignant as $enseignant): ?>
+                                    <li><?= $enseignant["name"] ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
                     </tr>
                 </tbody>
             </table>
