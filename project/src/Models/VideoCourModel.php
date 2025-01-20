@@ -77,6 +77,10 @@ class VideoCourModel extends CourModel
     }
     public function editCour($cours , $id){
         try {
+            $DeleteQuery = "DELETE FROM avoir WHERE cour_id = :id";
+            $stmt = $this->conn->prepare($DeleteQuery);
+            $stmt->bindParam(":id",$id);
+            $stmt->execute();
             $enseignantt = $cours->getEnseignant();
             $enseignantQuery = "SELECT id FROM enseignant WHERE user_id = :user_id";
             $enseignantStmt = $this->conn->prepare($enseignantQuery);
@@ -99,7 +103,7 @@ class VideoCourModel extends CourModel
                 return null;
             }
             $category_id_cour = $category_cour_id['id'];
-            $query = "UPDATE cours set titre = :titre , descrption = :description , contenu = :contenu ,enseignant_id = :enseignant, category_id = :catgeory_id
+            $query = "UPDATE cours set titre = :titre , descrption = :description , contenu = :contenu ,enseignant_id = :enseignant_id, category_id = :category_id
             WHERE id = :id";
             $titre = $cours->getTitre();
             $description = $cours->getDesc();
@@ -111,10 +115,9 @@ class VideoCourModel extends CourModel
             $stmt->bindParam(":contenu",$contenu);
             $stmt->bindParam(":enseignant_id",$enseignant_id);
             $stmt->bindParam(":category_id",$category_id_cour);
-            $isCourInserted = $stmt->execute();
-            $courId = $this->conn->lastInsertId();
-            if ($isCourInserted && $courId){
-                $attachCourToTag = $this->attachCourToTag($courId , $cours->getTag());
+            $isCourUpdated = $stmt->execute();
+            if ($isCourUpdated && $id){
+                $attachCourToTag = $this->attachCourToTag($id , $cours->getTag());
                 if ($attachCourToTag){
                     return $cours;
                 }
