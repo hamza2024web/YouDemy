@@ -7,7 +7,7 @@ $staticFetch = new CourController();
 $results = $staticFetch->numbreCours();
 $plusEtudiant = $staticFetch->courPlusEtudiant();
 $TopEnseignant = $staticFetch->TopEnseignant();
-
+$repartitionCategorie = $staticFetch->categorieNumbre();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,12 +54,18 @@ $TopEnseignant = $staticFetch->TopEnseignant();
                 <tbody class="text-gray-700">
                     <tr class="hover:bg-gray-100 border-t border-gray-200">
                         <td class="px-6 py-4"><?= $results; ?></td>
-                        <td class="px-6 py-4"></td>
+                        <td class="px-6 py-4">
+                            <ul>
+                                <?php foreach ($repartitionCategorie as $categorie) :?>
+                                    <li><?= $categorie["category_name"]?> : <?= $categorie["numbre_categorie"]?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
                         <td class="px-6 py-4"><?= $plusEtudiant ?></td>
                         <td class="px-6 py-4">
                             <ul>
                                 <?php foreach ($TopEnseignant as $enseignant): ?>
-                                    <li><?= $enseignant["name"] ?></li>
+                                    <li><?= $enseignant["name"] ?> : <?= ($enseignant["topEnseignant"]) ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </td>

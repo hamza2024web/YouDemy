@@ -224,7 +224,7 @@ abstract class CourModel
         INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
         INNER JOIN users ON users.id = enseignant.user_id
         GROUP BY users.name
-        ORDER BY topEnseignant ASC
+        ORDER BY topEnseignant DESC
         LIMIT 3;";          
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -233,6 +233,19 @@ abstract class CourModel
             return $results;
         } else {
             return false;
+        }
+    }
+    public function repartitionCategorie(){
+        $query = "SELECT categorie.category_name , COUNT(cours.category_id) as numbre_categorie FROM cours 
+        INNER JOIN categorie ON categorie.id = cours.category_id
+        GROUP BY categorie.category_name ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() >0 ){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } else {
+            return false ;
         }
     }
 }
