@@ -45,6 +45,13 @@ $pattern = '/^.*\.pdf$/i';
                 <li><a href="./MesCours.php" class="hover:underline">Mes cours</a></li>
             </ul>
         </nav>
+        <div class="absolute top-4 right-8">
+            <a href="../auth/logout.php">
+                <button class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 focus:ring focus:ring-red-300 focus:outline-none shadow-md transition">
+                    Logout
+                </button>
+            </a>
+        </div>
     </header>
 
     <main class="container mx-auto mt-8 p-4">

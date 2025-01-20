@@ -43,26 +43,28 @@ if (isset($_POST["modifier"])) {
             $newVersionCour = $courModifier->editCourVideo($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
         }
     } else {
-        if (empty($_POST["titre"]) || empty($_POST["discription"]) || empty($_FILES["contenuPDF"]) || empty($_POST["categorie"]) || empty($_POST["tag"])) {
-            echo "please ensure your input have the correct values";
-        } else {
-            $uploadDir = "../../../public/uploads";
-            $fileName = basename($_FILES["contenuPDF"]["name"]);
-            $targetFile = $uploadDir . $fileName;
-            $fileType = pathinfo($targetFile, PATHINFO_EXTENSION);
+        if (isset($_POST["contenuSelect"]) && $_POST["contenuSelect"] === "PDF") {
+            if (empty($_POST["titre"]) || empty($_POST["discription"]) || empty($_FILES["contenuPDF"]) || empty($_POST["categorie"]) || empty($_POST["tag"])) {
+                echo "please ensure your input have the correct values";
+            } else {
+                $uploadDir = "../../../public/uploads";
+                $fileName = basename($_FILES["contenuPDF"]["name"]);
+                $targetFile = $uploadDir . $fileName;
+                $fileType = pathinfo($targetFile, PATHINFO_EXTENSION);
 
-            if ($fileType !== "pdf") {
-                die("only PDF files are allowed");
+                if ($fileType !== "pdf") {
+                    die("only PDF files are allowed");
+                }
+
+                $id = $_POST["id_cour"];
+                $titre = $_POST["titre"];
+                $description = $_POST["discription"];
+                $fileUrl = "/public/uploads/" . $fileName;
+                $categoryId = $_POST["categorie"];
+                $tagId = $_POST["tag"];
+                $courModifier = new CourController();
+                $newVersionCour = $courModifier->editCourPdf($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
             }
-
-            $id = $_POST["id_cour"];
-            $titre = $_POST["titre"];
-            $description = $_POST["discription"];
-            $fileUrl = "/public/uploads/" . $fileName;
-            $categoryId = $_POST["categorie"];
-            $tagId = $_POST["tag"];
-            $courModifier = new CourController();
-            $newVersionCour = $courModifier->editCourPdf($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
         }
     }
 }
@@ -98,6 +100,13 @@ $pattern = '/^.*\.pdf$/i';
                     <li><a href="./inscription.php" class="hover:underline">Inscriptions</a></li>
                 </ul>
             </nav>
+        </div>
+        <div class="absolute top-4 right-8">
+            <a href="../auth/logout.php">
+                <button class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 focus:ring focus:ring-red-300 focus:outline-none shadow-md transition">
+                    Logout
+                </button>
+            </a>
         </div>
     </header>
 
@@ -157,7 +166,7 @@ $pattern = '/^.*\.pdf$/i';
                                     </a>
                                 <?php } ?>
                                 <div class="flex space-x-2">
-                                    <button onclick="toggleFields(<?= $cour['id']; ?>, '<?= htmlspecialchars($cour['titre'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['descrption'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['tag_name'], ENT_QUOTES, 'UTF-8'); ?>', '<?= htmlspecialchars($cour['category_name'], ENT_QUOTES, 'UTF-8'); ?>')" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
+                                    <button onclick="toggleFields(<?= $cour['id']; ?>, '<?= $cour['titre']; ?>', '<?= $cour['descrption']; ?>', '<?= $cour['tag_name']; ?>', '<?= $cour['category_name']; ?>')" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
                                         Modifier
                                     </button>
                                     <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
