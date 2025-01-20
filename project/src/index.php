@@ -14,7 +14,7 @@ if (isset($_POST['search'])) {
   $results = $fetchCour->paginationVisieur($pagination);
 }
 if (isset($_POST["inscription"])) {
-  header("location:../src/Views/auth/signup.php");
+  header("location:../src/Views/auth/login.php");
 }
 
 ?>

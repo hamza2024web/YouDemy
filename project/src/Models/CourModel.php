@@ -225,7 +225,7 @@ abstract class CourModel
         INNER JOIN users ON users.id = enseignant.user_id
         GROUP BY users.name
         ORDER BY topEnseignant DESC
-        LIMIT 3;";          
+        LIMIT 3;";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
@@ -244,6 +244,28 @@ abstract class CourModel
         if ($stmt->rowCount() >0 ){
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
+        } else {
+            return false ;
+        }
+    }
+    public function CountEtudiants(){
+        $query = "SELECT COUNT(etudiant.user_id) AS numbre_etudiant FROM etudiant";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() >0 ){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $results["numbre_etudiant"];
+        } else {
+            return false ;
+        }
+    }
+    public function CountEnseignant(){
+        $query = "SELECT COUNT(enseignant.user_id) as numbre_enseignant FROM enseignant";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() >0 ){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $results["numbre_enseignant"];
         } else {
             return false ;
         }
