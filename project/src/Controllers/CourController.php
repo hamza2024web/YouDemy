@@ -113,6 +113,11 @@ class CourController {
         $countPlusEtudiant = $plusEtudiant->CountCourPlusEtudiant();
         return $countPlusEtudiant;
     }
+    public function TopEnseignant(){
+        $TopEnseignant = new PdfCourModel();
+        $countTopEnseignant = $TopEnseignant->countTopEnseignant();
+        return $countTopEnseignant;
+    }
 }
 
 ?>

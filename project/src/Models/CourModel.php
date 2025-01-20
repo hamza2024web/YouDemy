@@ -219,4 +219,20 @@ abstract class CourModel
             return false;
         }
     }
+    public function countTopEnseignant() {
+        $query = "SELECT users.name, COUNT(cours.enseignant_id) as topEnseignant FROM cours
+        INNER JOIN enseignant ON enseignant.id = cours.enseignant_id
+        INNER JOIN users ON users.id = enseignant.user_id
+        GROUP BY users.name
+        ORDER BY topEnseignant ASC
+        LIMIT 3;";          
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } else {
+            return false;
+        }
+    }
 }
