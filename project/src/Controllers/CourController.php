@@ -123,6 +123,11 @@ class CourController {
         $numbreRepartitionCategorie = $numbreCategorie->repartitionCategorie();
         return $numbreRepartitionCategorie;
     }
+    public function CountEtudiant(){
+        $numbreOfEtudiants = new PdfCourModel();
+        $results = $numbreOfEtudiants->CountEtudiants();
+        return $results;
+    }
 }
 
 ?>

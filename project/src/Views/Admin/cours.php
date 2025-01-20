@@ -32,7 +32,7 @@ $resultFetch = $coursFetch->fetchCourEtudiant();
             <h1 class="text-2xl font-bold text-center mb-6">YouDemy</h1>
             <nav>
                 <ul class="space-y-4">
-                <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
+                    <li><a href="./dashboard.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tachometer-alt"></i><span class="ml-2">Tableau de bord</span></a></li>
                     <li><a href="./tag.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Tags Utilisés</span></a></li>
                     <li><a href="./categorie.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-tags"></i><span class="ml-2">Categorie Utilisés</span></a></li>
                     <li><a href="./UsersList.php" class="flex items-center hover:bg-blue-500 p-3 rounded transition duration-300"><i class="fas fa-chart-line"></i><span class="ml-2">Users List</span></a></li>
@@ -52,44 +52,42 @@ $resultFetch = $coursFetch->fetchCourEtudiant();
 
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Cours Existants</h2>
-                <table class="table-auto w-full border-collapse bg-white">
-                    <thead>
-                        <tr class="bg-gray-800 text-white">
-                            <th class="px-6 py-3 text-left text-sm font-medium">Nom du cour</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">description</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">contenu</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Categorie</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">tag</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">L'Enseignant</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Date De Creation</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-700">
+                <section class="mt-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <?php foreach ($resultFetch as $cour) { ?>
-                            <tr class="hover:bg-gray-100 border-t border-gray-200">
-                                <td class="px-6 py-4"><?= $cour['titre']; ?></td>
-                                <td class="px-6 py-4">
-                                    <p class="text-gray-700 mb-4"><?= substr($cour['descrption'], 0, 20); ?>...</p>
-                                </td>
-                                <td class="px-6 py-4"><?= $cour['contenu']; ?></td>
-                                <td class="px-6 py-4"><?= $cour['category_name']; ?></td>
-                                <td class="px-6 py-4"><?= $cour['tag_name']; ?></td>
-                                <td class="px-6 py-4"><?= $cour['enseignant_name']; ?></td>
-                                <td class="px-6 py-4"><?= $cour['created_at']; ?></td>
-                                <td class="px-6 py-4 space-x-2">
-                                    <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
-                                        <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
-                                        <button type="submit" name="delete" class="bg-red-500 text-white py-2 px-4 rounded shadow-md flex items-center space-x-2 hover:bg-red-600">
-                                            <i class="fas fa-trash-alt"></i>
-                                            <span>Supprimer</span>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
+                                <div class="p-6">
+                                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Title: <?= $cour['titre'] ?></h3>
+                                    <iframe width="330" height="280" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
+                                    <p class="text-sm text-gray-500 mb-1">
+                                        <i class="fas fa-calendar-alt mr-2"></i>Date: <span class="font-medium"><?= $cour['created_at'] ?></span>
+                                    </p>
+                                    <p class="text-sm text-gray-500 mb-1">
+                                        <i class="fas fa-folder mr-2"></i>Category: <span class="font-medium"><?= $cour['category_name'] ?></span>
+                                    </p>
+
+                                    <p class="text-sm text-gray-500 mb-1">
+                                        <i class="fas fa-tag mr-2"></i>Tag: <span class="font-medium"><?= $cour['tag_name'] ?></span>
+                                    </p>
+
+                                    <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex space-x-2">
+                                            <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
+                                                <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
+                                                <button type="submit" name="delete"
+                                                    class="inline-flex items-center bg-red-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition">
+                                                    <i class="fas fa-trash-alt mr-2"></i>Supprimer
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
-                    </tbody>
-                </table>
+                    </div>
+
+                </section>
             </div>
         </div>
     </div>

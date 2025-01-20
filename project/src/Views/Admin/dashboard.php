@@ -1,3 +1,10 @@
+<?php
+require_once("../../../vendor/autoload.php");
+use App\Controllers\CourController;
+
+$etudiant = new CourController();
+$countEtudiant = $etudiant->CountEtudiant();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -31,8 +38,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Card 1 -->
                 <div class="bg-white shadow-lg rounded-lg p-4">
-                    <h3 class="font-bold text-xl">Offres d'emploi disponibles</h3>
-                    <p class="text-2xl mt-2">120</p>
+                    <h3 class="font-bold text-xl">Numbre Des étudiant </h3>
+                    <p class="text-2xl mt-2"><?= $countEtudiant ?></p>
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-white shadow-lg rounded-lg p-4">
