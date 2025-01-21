@@ -17,7 +17,6 @@ abstract class CourModel
 
     abstract public function addCour($cours);
     abstract public function search($searchInput);
-    
     abstract public function editCour($cours , $id);
 
     public function attachCourToTag($courId, $tagId)
@@ -75,7 +74,10 @@ abstract class CourModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-
+        $queryInscription = "DELETE from inscription WHERE cour_id = :id";
+        $stmt = $this->conn->prepare($queryInscription);
+        $stmt->bindParam(":id",$id);
+        $stmt->execute();
         $sql = "DELETE FROM cours WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":id", $id);
