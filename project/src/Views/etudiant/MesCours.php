@@ -5,6 +5,14 @@ session_start();
 use App\Controllers\CourController;
 
 $fetchCours = new CourController();
+
+
+if (isset($_POST["cancel"])) {
+    $cour_id = $_POST["cour_id"];
+    $fetchCours->deleteInscription($cour_id);
+}
+
+
 $results = $fetchCours->fetchCoursInscript();
 $pattern = '/^.*\.pdf$/i';
 ?>
@@ -42,33 +50,57 @@ $pattern = '/^.*\.pdf$/i';
             <h2 class="text-2xl font-semibold mb-6 text-center">Cours Récentes</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php foreach ($results as $cour) { ?>
-                    <div class="bg-white shadow-md border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl">
+                    <div class="bg-white shadow-lg border border-gray-200 rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-2xl">
                         <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Instructor: <?= $cour['enseignant_name'] ?></h3>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Title: <?= $cour['titre'] ?></h3>
-                            <iframe width="430" height="315" src="<?= $cour["contenu"] ?>" frameborder="0"></iframe>
-                            <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-calendar-alt mr-2"></i>Date: <span class="font-medium"><?= $cour['created_at'] ?></span>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3 truncate">Instructor: <?= $cour['enseignant_name'] ?></h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-3 truncate">Title: <?= $cour['titre'] ?></h4>
+
+                            <div class="relative aspect-video bg-gray-100 rounded-md overflow-hidden mb-4">
+                                <iframe
+                                    class="absolute inset-0 w-full h-full"
+                                    src="<?= $cour['contenu'] ?>"
+                                    frameborder="0"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+
+                            <p class="text-sm text-gray-600 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-blue-500"></i>
+                                Date: <span class="font-medium"><?= $cour['created_at'] ?></span>
                             </p>
-                            <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-folder mr-2"></i>Category: <span class="font-medium"><?= $cour['category_name'] ?></span>
+                            <p class="text-sm text-gray-600 mb-2">
+                                <i class="fas fa-folder mr-2 text-yellow-500"></i>
+                                Category: <span class="font-medium"><?= $cour['category_name'] ?></span>
                             </p>
-                            <p class="text-sm text-gray-500 mb-1">
-                                <i class="fas fa-tag mr-2"></i>Tag: <span class="font-medium"><?= $cour['tag_name'] ?></span>
+                            <p class="text-sm text-gray-600 mb-2">
+                                <i class="fas fa-tag mr-2 text-green-500"></i>
+                                Tag: <span class="font-medium"><?= $cour['tag_name'] ?></span>
                             </p>
-                            <p class="text-sm text-gray-600 mt-4 mb-4 leading-relaxed"><?= substr($cour['descrption'], 0, 100) ?>...</p>
-                            <div class="flex items-center justify-between">
-                                <?php if (preg_match($pattern, $cour["contenu"])) { ?>
-                                    <a href="<?= $cour['contenu']; ?>" download
-                                        class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
-                                        <i class="fas fa-download mr-2"></i>Télécharger PDF
+
+                            <p class="text-gray-600 mt-4 leading-relaxed text-sm">
+                                <?= substr($cour['descrption'], 0, 100) ?>...
+                            </p>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <?php if (preg_match($pattern, $cour['contenu'])) { ?>
+                                    <a href="<?= $cour['contenu'] ?>" download
+                                        class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow hover:bg-green-600 transition">
+                                        <i class="fas fa-download mr-2"></i> Télécharger PDF
                                     </a>
                                 <?php } else { ?>
-                                    <a href="<?= $cour['contenu']; ?>" download
-                                        class="inline-flex items-center bg-green-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition">
-                                        <i class="fas fa-download mr-2"></i>Watch VIDEO
+                                    <a href="<?= $cour['contenu'] ?>" target="_blank"
+                                        class="inline-flex items-center bg-blue-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">
+                                        <i class="fas fa-play mr-2"></i> Watch Video
                                     </a>
                                 <?php } ?>
+
+                                <form action="" method="POST">
+                                    <input type="hidden" name="cour_id" value="<?= $cour['id'] ?>">
+                                    <button type="submit" name="cancel"
+                                        class="inline-flex items-center bg-red-500 text-white text-sm font-medium py-2 px-4 rounded-lg shadow hover:bg-red-600 transition">
+                                        <i class="fas fa-times-circle mr-2"></i> Cancel
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

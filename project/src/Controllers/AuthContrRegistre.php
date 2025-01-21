@@ -29,7 +29,6 @@ class AuthContrRegistre {
                 echo "Votre compte a été Disactiver";
             }
         }
-
     }
     public function updateStatus($id , $newstatus){
         $statusModel = new UserModel();

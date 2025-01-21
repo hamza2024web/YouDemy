@@ -78,6 +78,12 @@ class CourController {
         return $EtudiantPostuler;
        
     }
+    public function deleteInscription($cour_id){
+        $deleteIinscription = new PdfCourModel();
+        $resultOfDelete = $deleteIinscription->cancelInsciption($cour_id); 
+        $pathUrl = "/src/views/";
+        header("location:" . $pathUrl . "etudiant/home.php");
+    }
     public function CountInscription(){
         $CountInscription = new PdfCourModel();
         $countInscriptions = $CountInscription->CountInscriptions();

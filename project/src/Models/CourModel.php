@@ -270,4 +270,25 @@ abstract class CourModel
             return false ;
         }
     }
+    public function cancelInsciption($cour_id){
+        $etudiantt_id = $_SESSION["user_id"];
+        $queryToGetTheUser = "SELECT etudiant.id FROM etudiant
+        INNER JOIN users ON etudiant.user_id = users.id
+        WHERE users.id = :etudiant_id";
+        $stmt = $this->conn->prepare($queryToGetTheUser);
+        $stmt->bindParam(":etudiant_id",$etudiantt_id);
+        $stmt->execute();
+        $etudiant = $stmt->fetch();
+        $etudiantId = $etudiant["id"];
+        $query = "DELETE FROM inscription WHERE etudiant_id = :user_id AND cour_id = :cour_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id",$etudiantId);
+        $stmt->bindParam(":cour_id",$cour_id);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
