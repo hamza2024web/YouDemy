@@ -62,6 +62,7 @@ if (isset($_POST["modifier"])) {
                 $fileUrl = "/public/uploads/" . $fileName;
                 $categoryId = $_POST["categorie"];
                 $tagId = $_POST["tag"];
+                $enseignant_id = $_SESSION["user_id"];
                 $courModifier = new CourController();
                 $newVersionCour = $courModifier->editCourPdf($id, $titre, $description, $fileUrl, $enseignant_id, $categoryId, $tagId);
             }
@@ -167,8 +168,8 @@ $pattern = '/^.*\.pdf$/i';
                                     </a>
                                 <?php } ?>
                                 <div class="flex space-x-2">
-                                    <button onclick="toggleFields(<?= $cour['id']; ?>, '<?= $cour['titre']; ?>', '<?= $cour['descrption']; ?>', '<?= $cour['tag_name']; ?>', '<?= $cour['category_name']; ?>')" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
-                                        Modifier
+                                    <button onclick="toggleFields(<?= $cour['id']; ?>,  `<?= htmlspecialchars($cour['titre'], ENT_QUOTES); ?>`, `<?= htmlspecialchars($cour['descrption'],ENT_QUOTES); ?>`, '<?= $cour['tag_name']; ?>', '<?= $cour['category_name']; ?>')" type="button" class="px-3 py-2 text-sm font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600" id="modifier">
+                                       Modifier
                                     </button>
                                     <form action="" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer ce cours ?');">
                                         <input type="hidden" name="cour_id" value="<?= $cour['id']; ?>" />
@@ -333,7 +334,7 @@ $pattern = '/^.*\.pdf$/i';
 <script>
     formModifier.style.display = 'none';
 
-    function toggleFields(id, title = "", description = "", tagName = "", categoryName = "") {
+    function toggleFields(id, title = "", description = "", tagName = "", categoryName = "") {  
         const contenuSelect = document.getElementById('contenuSelect').value;
         const candidatFields = document.getElementById('PdfFields');
         const recruteurFields = document.getElementById('VideoFields');
