@@ -56,12 +56,7 @@ $pattern = '/^.*\.pdf$/i';
                             <h4 class="text-lg font-semibold text-gray-700 mb-3 truncate">Title: <?= $cour['titre'] ?></h4>
 
                             <div class="relative aspect-video bg-gray-100 rounded-md overflow-hidden mb-4">
-                                <iframe
-                                    class="absolute inset-0 w-full h-full"
-                                    src="<?= $cour['contenu'] ?>"
-                                    frameborder="0"
-                                    allowfullscreen>
-                                </iframe>
+                                <iframe class="absolute inset-0 w-full h-full" src="<?= $cour['contenu'] ?>" frameborder="0" allowfullscreen></iframe>
                             </div>
 
                             <p class="text-sm text-gray-600 mb-2">
