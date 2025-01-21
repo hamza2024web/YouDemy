@@ -75,21 +75,26 @@ class PdfCourModel extends CourModel {
     }
     public function editCour($cours , $id){
         try {
+            
             $enseignant_id = $cours->getEnseignant();
-            $query = "SELECT * from enseignant WHERE id = :user_id";
+            $query = "SELECT id from enseignant WHERE user_id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":user_id",$enseignant_id);
             $stmt->execute();
             $enseignant = $stmt->fetch();
+            if (!$enseignant) {
+                echo "Enseignant not found. Please ensure !Your Account is registred as a enseignant";
+                return null;
+            }
             $enseignantt = $enseignant["id"];
             $category_id = $cours->getCat();
-            $query = "SELECT * FROM categorie WHERE id = :category_id";
+            $query = "SELECT id FROM categorie WHERE id = :category_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":category_id",$category_id);
             $stmt->execute();
             $categoryy = $stmt->fetch();
             $category_iid = $categoryy["id"];
-            $query = "UPDATE cours set titre = :titre , descrption = :description , contenu = :contenu ,enseignant_id = :enseignant, category_id = :catgeory_id
+            $query = "UPDATE cours set titre = :titre , descrption = :description , contenu = :contenu ,enseignant_id = :enseignant, category_id = :category_id
             WHERE id = :id";
             $titre = $cours->getTitre();
             $description = $cours->getDesc();
@@ -99,7 +104,7 @@ class PdfCourModel extends CourModel {
             $stmt->bindParam(":titre",$titre);
             $stmt->bindParam(":description",$description);
             $stmt->bindParam(":contenu",$contenu);
-            $stmt->bindParam(":enseignant_id",$enseignantt);
+            $stmt->bindParam(":enseignant",$enseignantt);
             $stmt->bindParam(":category_id",$category_iid);
             $isCourUpdated = $stmt->execute();
             if ($isCourUpdated){
